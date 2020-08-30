@@ -1,4 +1,4 @@
-## Web Programming Projects :tent:
+## Web Programming Projects :tongue:
 
 Series of projects of Harvard's Web Programming Course
 
