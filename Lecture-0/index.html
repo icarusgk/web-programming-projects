@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Search</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-   <div>
-        <h1 id="header">Search</h1>
-        <form action="https://google.com/gen_204?" method="POST">
-           <input type="text" name="oq"> 
-           <!-- Button submit -->
-           <input type="submit" value="Google Search">
-        </form>
-   </div> 
-</body>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <h1 id="header">Search</h1>
+      <!-- Search button -->
+      <form action="https://google.com/search">
+         <input type="text" name="q" />
+         <input type="submit" value="Google Search">
+      </form>
+      <form action="https://google.com/search?">
+        <input type="text" name="q" />
+        <!-- Button submit -->
+        <input type="submit" value="I'm Feeling Lucky" name="btnI" />
+      </form>
+    </div>
+  </body>
 </html>
