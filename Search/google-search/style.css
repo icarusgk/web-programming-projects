@@ -1,17 +1,17 @@
 html{
-	font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #header {
   padding: 10px;
-	text-align: right;
-	padding-right: 30px;
+  text-align: right;
+  padding-right: 30px;
 }
 
 .header-items{
-	display: inline-block;
-	vertical-align: middle;
-	font-size: 13px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
 }
 
 .upper-links{
@@ -20,7 +20,7 @@ html{
 }
 
 .upper-links:link{
-	text-decoration: none;
+  text-decoration: none;
 	
 }
 
@@ -37,9 +37,9 @@ html{
 #main-image {
   display: block;
   margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 30px;
-	margin-top: 90px;
+  margin-right: auto;
+  margin-bottom: 30px;
+  margin-top: 90px;
   width: 380px;
 }
 
@@ -86,17 +86,17 @@ html{
   cursor: pointer;
   height: 36px;
   border: 1px solid #f2f2f2;
-	border-radius: 4px;
-	margin-top: 20px;
+  border-radius: 4px;
+  margin-top: 20px;
 }
 
 .search-btn:hover{
-	color: black;
+  color: black;
   border: 0.5px solid rgb(184, 184, 184);
   background-color: rgb(233, 233, 233);
 }
 
 .search-btn:active{
-	border: 0.5px blue;
-	border-style: solid 0.5px;
+  border: 0.5px blue;
+  border-style: solid 0.5px;
 }
