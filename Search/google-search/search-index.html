@@ -3,7 +3,7 @@
 
 <head>
   <title>Search</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style-search.css" />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 
@@ -17,24 +17,25 @@
         <a class="upper-links" href="../google-advanced-search/index_as.html">Advanced Search</a>
       </div>
     </div>
-
-    <div id="image-container">
-      <a href="./search-index.html"><img id="main-image" src="./resources/search-logo.gif" alt="search-logo" /></a>
-    </div>
-
-    <!-- Search button -->
     <div>
-      <form action="https://google.com/search">
-        <div id="search-bar">
-          <div id="search-icon">
-            <img src="./resources/magnifier-icon.png" alt="magnifier-icon" width="20px">
-          </div>
-          <input id="search-field" type="text" name="q" />
-        </div>
 
-        <input class="search-btn" type="submit" value="Google Search" />
-        <input class="search-btn" type="submit" value="I'm Feeling Lucky" name="btnI" />
-      </form>
+      <div id="main-image-container">
+        <a href="./search-index.html"><img src="./resources/search-logo.gif" alt="search-logo" width="380px"/></a>
+      </div>
+
+      <!-- Search button -->
+      <div>
+        <form action="https://google.com/search">
+          <div id="search-bar">
+            <div id="search-icon">
+              <img src="./resources/magnifier-icon.png" alt="Search Icon" width="20px">
+            </div>
+            <input id="search-field" type="text" name="q" />
+          </div>
+          <input class="search-btn" type="submit" value="Google Search" />
+          <input class="search-btn" type="submit" value="I'm Feeling Lucky" name="btnI" />
+        </form>
+      </div>
     </div>
   </div>
 </body>

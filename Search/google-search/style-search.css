@@ -34,13 +34,13 @@ html{
   text-align: center;
 }
 
-#main-image {
+#main-image-container {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  width: auto;
   margin-bottom: 30px;
   margin-top: 90px;
-  width: 380px;
 }
 
 #search-bar {
@@ -94,9 +94,4 @@ html{
   color: black;
   border: 0.5px solid rgb(184, 184, 184);
   background-color: rgb(233, 233, 233);
-}
-
-.search-btn:active{
-  border: 0.5px blue;
-  border-style: solid 0.5px;
 }

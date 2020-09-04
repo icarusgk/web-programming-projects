@@ -1,13 +1,46 @@
 <html>
-    <head>
-        <title>Image Search</title>
-    </head>
-    <body>
-        <form action="https://www.google.com/search?">
-            <input type="text" name="q"/>
-            <input type="hidden" name="tbm" value="isch">
-            <input type="submit" value="Google Image Search">
-        </form>
 
-    </body>
+<head>
+	<title>Image Search</title>
+	<link rel="stylesheet" href="./style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+	<div id="search-body">
+		<!-- Header -->
+		<div id="header">
+			<div class="header-items">
+				<a class="upper-links" href="../google-image-search/index_is.html">Images</a>
+			</div>
+			<div class="header-items">
+				<a class="upper-links" href="../google-advanced-search/index_as.html">Advanced Search</a>
+			</div>
+		</div>
+
+		<div>
+			<div id="main-image-container">
+				<a href="./index_is.html"><img src="./resources/google-images-logo.png" alt="Image Search Logo"></a>
+			</div>
+			<div>
+				<form action="https://www.google.com/search?">
+				<div id="search-bar">
+					<div id="search-icon">
+						<img src="./resources/magnifier-icon.png" alt="Search Icon" width="20px">
+					</div>
+					<input id="search-field" type="text" name="q" />
+					<div id="search-button">
+							<input type="hidden" name="tbm" value="isch"><img src="./resources/search-icon.jpg" alt="Search button" width="30px"></input>
+					
+					</div>
+				</div>
+				
+				</form>
+			</div>
+
+		</div>
+	</div>
+</body>
+
 </html>
