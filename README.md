@@ -2,8 +2,9 @@
 
 Series of projects of Harvard's Web Programming Course
 
-- [ ] Search
+- [x] Search
 - [ ] Wiki
 - [ ] Mail
 - [ ] Network
 - [ ] Capstone
+
