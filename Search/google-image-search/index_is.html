@@ -11,8 +11,9 @@
 	<div id="search-body">
 		<!-- Header -->
 		<div id="header">
+			<!-- Links -->
 			<div class="header-items">
-				<a class="upper-links" href="../google-image-search/index_is.html">Images</a>
+				<a class="upper-links" href="../google-search/search-index.html">Search</a>
 			</div>
 			<div class="header-items">
 				<a class="upper-links" href="../google-advanced-search/index_as.html">Advanced Search</a>
@@ -25,17 +26,20 @@
 			</div>
 			<div>
 				<form action="https://www.google.com/search?">
-				<div id="search-bar">
-					<div id="search-icon">
-						<img src="./resources/magnifier-icon.png" alt="Search Icon" width="20px">
+					<div id="search-bar">
+						<div id="search-icon">
+							<img src="./resources/magnifier-icon.png" alt="Search Icon" width="20px">
+						</div>
+						<input id="search-field" type="text" name="q" />
+						<div id="camera-icon">
+							<img src="./resources/camera-icon.jpg" alt="Camera Icon" width="23px">
+						</div>
+						<div id="search-button">
+							<input type="hidden" name="tbm" value="isch"><img src="./resources/search-icon.jpg" alt="Search button"
+								width="23px"></input>
+						</div>
 					</div>
-					<input id="search-field" type="text" name="q" />
-					<div id="search-button">
-							<input type="hidden" name="tbm" value="isch"><img src="./resources/search-icon.jpg" alt="Search button" width="30px"></input>
-					
-					</div>
-				</div>
-				
+
 				</form>
 			</div>
 

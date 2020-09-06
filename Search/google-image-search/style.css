@@ -59,6 +59,16 @@ html{
   margin: 12px;
 }
 
+#search-button {
+  padding-top: 10px;
+  padding-right: 17px;
+}
+
+#camera-icon {
+  padding-top: 8px;
+  padding-right: 17px;
+}
+
 #search-field {
   background-color: transparent;
   border: none;
