@@ -2,19 +2,77 @@
 
 <head>
 	<title>Advanced Search</title>
+	<link rel="stylesheet" href="./as_style.css	">
 </head>
 
 <body>
-	<div>
-		<!-- Find pages with -->
-		<form action="https://www.google.com/search?">
-				<h2>Find pages with</h2>
-				All these words <input type="text" name="as_q"><br>
-				This exact word or phrase <input type="text" name="as_epq"><br>
-				Any of these words <input type="text" name="as_oq"><br>
-				None of these words <input type="text" name="as_eq"><br>
-			<br /><input type="submit" name="tbs" value="Advanced Search"/>
-		</form>
-	</div>
+	<!-- <div id="search-body"> -->
+		<div id="header">
+			<div id="header-logo" >
+				<img src="./resources/google-logo.png" alt="Google Logo" width="100px"/>
+			</div>
+			
+			<div class="header-items">
+				<a class="upper-links" href="../google-search/search-index.html">Search</a>
+			</div>
+			<div class="header-items">
+				<a class="upper-links" href="../google-image-search/is_index.html">Images</a>
+			</div>
+		</div>
+
+		<div id="title-container">
+			<label id="title">Advanced Search</label>
+		</div>
+		<hr style="border: 1px solid #eeeeee">
+
+
+		<div id="form-body">
+			<!-- Find pages with -->
+			<form action="https://www.google.com/search?">
+				<div>
+					<p id="second-title">Find pages with</p>
+				</div>
+				<div class="form-container">
+					<div class="label">
+						All these words
+					</div>
+					<div>
+						<input class="text-input" type="text" name="as_q">
+					</div>
+				</div>
+
+				<div class="form-container">
+					<div class="label">
+						This exact word or phrase
+					</div>
+					<div>
+						<input class="text-input" type="text" name="as_epq">
+					</div>
+				</div>
+
+				<div class="form-container">
+					<div class="label">
+						Any of these words 
+					</div>
+					<div>
+						<input class="text-input" type="text" name="as_oq">
+					</div >
+				</div>
+				
+				<div class="form-container">
+					<div class="label">
+						None of these words 
+					</div>
+					<div>
+						<input class="text-input" type="text" name="as_eq">
+					</div>
+				</div>
+				
+
+				<input id="button" type="submit" name="tbs" value="Advanced Search" />
+			</form>
+		</div>
+	<!-- </div> -->
 </body>
+
 </html>

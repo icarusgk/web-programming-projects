@@ -1,3 +1,104 @@
-h2 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  font-family: 'Arial';
+}
+
+
+#header {
+  text-align: right;
+  padding: 10px;
+  padding-right: 30px;
+  background-color: #F1F1F1;
+  height: 30px;
+}
+
+#header-logo {
+  display: block;
+  float: left;
+}
+
+.header-items {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  padding-top: 7px;
+}
+
+.upper-links {
+  padding-right: 10px;
+  color: black;
+}
+
+.upper-links:link {
+  text-decoration: none;
+}
+
+.upper-links:hover {
+  text-decoration: underline;
+  color: grey;
+}
+
+#title-container {
+  margin: 25px 35px;
+
+}
+
+#title {
+  color: #d93025;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+#second-title {
+	font-size: 16px;
+}
+
+form {
+  display: block;
+  margin-left: 40px;
+}
+
+#form-body {
+	margin-top: 40px;
+	width: 700px;
+}
+
+.form-container{
+  margin-top: 20px;
+}
+
+.label {
+  float: left;
+  display: inline;
+  width: 170px;
+  vertical-align: middle;
+  font-size: 12px;
+}
+.text-input {
+  display: inline-block;
+  vertical-align: middle;
+	width: 70%;
+	border: 1px solid #d9d9d9;
+	border-top: 1px solid #c0c0c0;
+	font-size: 14px;
+	padding: 1px 8px;
+	height: 25px;
+}
+
+#button {
+	float: right;
+	margin-right: 30px;
+	margin-top: 40px;
+	background-color: #4d90fe;
+	color: white;
+	border: 1px solid #3079ed;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size:12px;
+	text-align: center;
+	height: 30px;
+	width: 120px;
+}
+
+#button:hover {
+	background-color: #2277ff;
 }
