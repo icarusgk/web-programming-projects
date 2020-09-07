@@ -29,7 +29,11 @@ html{
   color: grey;
 }
 
-w
+#search-body {
+  margin: auto;
+  text-align: center;
+}
+
 #main-image-container {
   display: block;
   margin-left: auto;
