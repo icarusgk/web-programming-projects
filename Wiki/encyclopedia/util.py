@@ -39,4 +39,4 @@ def get_entry(title):
 
 def convert(page):
     md = Markdown()
-    return md.convert(page)
+    return md.convert(get_entry(page))

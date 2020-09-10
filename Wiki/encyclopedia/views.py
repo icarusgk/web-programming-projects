@@ -1,27 +1,68 @@
 from django.shortcuts import render
 from . import util
 from django.http import HttpResponse
+from django import forms
+from django.urls import reverse
 
-# pages = ["/entries/CSS.md"]
+class SearchEntry(forms.Form):
+	query = forms.CharField(label="Search:")
+
+
+entries = util.list_entries()
+
+# Index and Layout Page
 
 def index(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
 
-def create(request):
-    return render(request, "encyclopedia/create.html")
+	if request.method == "POST":
+		form = SearchEntry(request.POST)
 
-def random(request):
-    return render(request, "encyclopedia/random.html")
+		if form.is_valid():
+			query = form.cleaned_data["q"]
+			if query in entries:
+				return render(request, "encyclopedia/content.html", {
+					"page_content": util.convert(query)
+				})
+			else:
+				return render(request, "encyclopedia/not_found.html",{
+					"form": form,
+					"page_name": query
+				})
+
+	return render(request, "encyclopedia/index.html", {
+    "entries": entries,
+		"form": SearchEntry()
+  })
+
+# Page Content
+
 
 def content(request, name):
-    if name in util.list_entries():
-        return render(request, "encyclopedia/content.html", {
-            "page_content": util.convert(util.get_entry(name))
-        })
-    else:
-        return render(request, "encyclopedia/not_found.html")
+  if name in util.list_entries():
+    return render(request, "encyclopedia/content.html", {
+      "page_content": util.convert(name)
+    })
+  else:
+  	return render(request, "encyclopedia/not_found.html", {
+			"page_name": name
+		})
 
-# def link(request, place_name):
+# Search
 
+
+def search(request):
+	if request.method == "POST":
+		form = SearchEntry(request.POST)
+
+		if form.is_valid():
+			query = form.cleaned_data["q"]
+			if query in entries:
+				return render(request, "encyclopedia/content.html", {
+					"page_content": util.convert(query)
+				})
+			else:
+				return render(request, "encyclopedia/not_found.html",{
+					"form": form,
+					"page_name": query
+				})
+				
