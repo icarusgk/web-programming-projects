@@ -18,7 +18,7 @@ def index(request):
 		form = SearchEntry(request.POST)
 
 		if form.is_valid():
-			query = form.cleaned_data["q"]
+			query = form.cleaned_data["value"]
 			if query in entries:
 				return render(request, "encyclopedia/content.html", {
 					"page_content": util.convert(query)
@@ -35,8 +35,6 @@ def index(request):
   })
 
 # Page Content
-
-
 def content(request, name):
   if name in util.list_entries():
     return render(request, "encyclopedia/content.html", {
@@ -47,22 +45,38 @@ def content(request, name):
 			"page_name": name
 		})
 
+
+results = []
+chars = []
+clean_data = ""
 # Search
-
-
 def search(request):
-	if request.method == "POST":
-		form = SearchEntry(request.POST)
+	if request.method == "GET":
+		query = request.GET.get('q', '')
+		
+		for char in query:
+			chars.append(char)
 
-		if form.is_valid():
-			query = form.cleaned_data["q"]
-			if query in entries:
-				return render(request, "encyclopedia/content.html", {
-					"page_content": util.convert(query)
-				})
-			else:
-				return render(request, "encyclopedia/not_found.html",{
-					"form": form,
-					"page_name": query
-				})
+		for entry in entries:
+			clean_data = entry.upper()
+			if chars[0].upper() in clean_data:
+				results.append(clean_data)
+
+		if query in entries:
+			return render(request, "encyclopedia/content.html", {
+				"page_content": util.convert(query)
+			})
+		elif query in clean_data:
+			return render(request, "encyclopedia/results.html", {
+				"results": results,
+				"entries": entries
+			})
+		elif query == '':
+			return render(request, "encyclopedia/index.html", {
+				"entries": entries
+			})
+		else:
+			return render(request, "encyclopedia/not_found.html",{
+				"page_name": query
+			})
 				
