@@ -73,6 +73,23 @@ def search(request):
 			})
 
 def create(request):
-	return render(request, "encyclopedia/create.html", {
-		"page_content": util.convert("Git")
-	})
+	return render(request, "encyclopedia/create.html")
+
+def create_entry(request):
+	"""
+	Creates a new entry for the wiki
+	"""
+
+	if request.method == "GET":
+		new_entry = request.GET.get('new_entry', '')
+		title = request.GET.get('title', '')
+
+		util.save_entry(title, new_entry)
+
+		entries.append(title)
+		
+		message = "You successfully created a new page"
+
+		return render(request, "encyclopedia/add.html", {
+			"message": message
+		})

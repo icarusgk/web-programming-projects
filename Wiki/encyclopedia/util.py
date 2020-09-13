@@ -39,10 +39,7 @@ def get_entry(title):
 
 def convert(page):
     """
-    Converts a markdown page to html
+    Converts a Markdown page to HTML
     """
     md = Markdown()
     return md.convert(get_entry(page))
-
-# def parse_text(page):
-#     md.

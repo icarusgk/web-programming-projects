@@ -6,5 +6,9 @@
 
 {% block body %}
   <h1>Create New Page</h1>
-  <textarea name="new-entry" id="new-entry" cols="30" rows="10">{{page_content}}</textarea>
+  <form action="{% url 'pages:create_entry' %}">
+    <input type="text" name="title" id="title" placeholder="Enter a new title...">
+    <textarea name="new_entry" id="new_entry" cols="30" rows="5"></textarea>
+  <input type="submit" value="Submit">
+  </form>
 {% endblock %}
