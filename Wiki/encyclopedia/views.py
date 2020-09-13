@@ -34,6 +34,10 @@ n_results = 0
 
 
 def search(request):
+	"""
+	Searches along the entries to determine if 
+	the requested query exists.
+	"""
 	if request.method == "GET":
 		query = request.GET.get('q', '')
 		
