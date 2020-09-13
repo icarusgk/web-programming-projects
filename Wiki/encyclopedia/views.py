@@ -4,34 +4,14 @@ from django.http import HttpResponse
 from django import forms
 from django.urls import reverse
 
-class SearchEntry(forms.Form):
-	query = forms.CharField(label="Search:")
-
 
 entries = util.list_entries()
 
 # Index and Layout Page
 
 def index(request):
-
-	if request.method == "POST":
-		form = SearchEntry(request.POST)
-
-		if form.is_valid():
-			query = form.cleaned_data["value"]
-			if query in entries:
-				return render(request, "encyclopedia/content.html", {
-					"page_content": util.convert(query)
-				})
-			else:
-				return render(request, "encyclopedia/not_found.html",{
-					"form": form,
-					"page_name": query
-				})
-
 	return render(request, "encyclopedia/index.html", {
     "entries": entries,
-		"form": SearchEntry()
   })
 
 # Page Content
@@ -45,38 +25,50 @@ def content(request, name):
 			"page_name": name
 		})
 
-
 results = []
 chars = []
 clean_data = ""
+n_results = 0
+
 # Search
+
+
 def search(request):
 	if request.method == "GET":
 		query = request.GET.get('q', '')
 		
 		for char in query:
 			chars.append(char)
+		
+		results.clear()
+		
+		if chars.__len__() > 0:
+			for entry in entries:
+				clean_data = entry.upper()
 
-		for entry in entries:
-			clean_data = entry.upper()
-			if chars[0].upper() in clean_data:
-				results.append(clean_data)
+				if chars[0].upper() in clean_data:
+					results.append(entry)
+					n_results = results.__len__()
+		
+		chars.clear()
 
 		if query in entries:
 			return render(request, "encyclopedia/content.html", {
 				"page_content": util.convert(query)
 			})
-		elif query in clean_data:
-			return render(request, "encyclopedia/results.html", {
-				"results": results,
-				"entries": entries
-			})
 		elif query == '':
 			return render(request, "encyclopedia/index.html", {
 				"entries": entries
 			})
-		else:
-			return render(request, "encyclopedia/not_found.html",{
-				"page_name": query
+		elif query not in entries:
+			return render(request, "encyclopedia/results.html", {
+				"results": results,
+				"entries": entries,
+				"query": query,
+				"number_of_results": n_results
 			})
-				
+
+def create(request):
+	return render(request, "encyclopedia/create.html", {
+		"page_content": util.convert("Git")
+	})
