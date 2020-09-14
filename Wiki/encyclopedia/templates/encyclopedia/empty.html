@@ -1,0 +1,10 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block title %}
+  Empty
+{% endblock title %}
+
+{% block body %}
+  <p>Please enter the entry's content</p>
+  <a href="{% url 'pages:create' %}">Return to create a new page</a>
+{% endblock body %}

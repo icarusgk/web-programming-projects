@@ -1,0 +1,24 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block title %} 
+Edit entry
+{% endblock title %}
+
+{% block body %}
+  <h1>Edit entry</h1>
+  <div>
+    <form action="{% url 'pages:edit_page' %}">
+      <div style="text-align: left;">
+        <label>Edit title:</label>
+        <input type="text" name="edit_title" id="edit_title" value="{{title}}">
+      </div>
+        <p>Edit content:</p>
+        <textarea style="height: 350px" name="edit_text" id="edit_text" cols="30" rows="10">{{content}}</textarea>
+      <div style="text-align: left;">
+        <input type="submit" value="Update page">
+      </div>
+        
+    </form>
+  </div>
+    
+{% endblock body %}
