@@ -7,6 +7,9 @@ from django.http import HttpResponseRedirect
 import random as rd
 
 entries = util.list_entries()
+results = []
+chars = []
+clean_data = ""
 
 # Index and Layout Page
 
@@ -28,12 +31,6 @@ def content(request, name):
   	return render(request, "encyclopedia/not_found.html", {
 			"page_name": name
 		})
-		
-
-results = []
-chars = []
-clean_data = ""
-n_results = 0
 
 # Search
 def search(request):
@@ -55,7 +52,6 @@ def search(request):
 
 				if chars[0].upper() in clean_data:
 					results.append(entry)
-					n_results = results.__len__()
 		
 		chars.clear()
 
@@ -71,8 +67,7 @@ def search(request):
 			return render(request, "encyclopedia/results.html", {
 				"results": results,
 				"entries": entries,
-				"query": query,
-				"number_of_results": n_results
+				"query": query
 			})
 
 def create(request):
@@ -86,14 +81,23 @@ def create_entry(request):
 	if request.method == "GET":
 		new_entry = request.GET.get('new_entry', '')
 		title = request.GET.get('title', '')
-		if new_entry and title:
-			util.save_entry(title, new_entry)
-			entries.append(title)
-		
-		message = "You successfully created a new page"
 
-		return render(request, "encyclopedia/add.html", {
-			"message": message
+		if new_entry.__len__() == 0:
+			return render(request, "encyclopedia/empty.html")
+
+		if new_entry and title:
+			if title in entries:
+				return render(request, "encyclopedia/error.html", {
+					"name": title
+				})
+			else:
+				util.save_entry(title, new_entry)
+				entries.append(title)		
+
+		return render(request, "encyclopedia/content.html", {
+			"page_content": util.convert(title),
+			"name": title,
+			"md_content": new_entry
 		})
 
 def edit(request):
@@ -107,6 +111,9 @@ def edit(request):
 	})
 
 def edit_page(request):
+	"""
+	Given a page name, it returns the page to edit
+	"""
 	if request.method == "GET":
 		updated_title = request.GET.get('edit_title', '')
 		updated_content = request.GET.get('edit_text', '')
@@ -120,6 +127,9 @@ def edit_page(request):
 		})
 
 def random(request):
+	"""
+	Given the entries, returns a random one
+	"""
 	n_page = rd.randint(0, entries.__len__()-1)
 	page = entries[n_page]
 
