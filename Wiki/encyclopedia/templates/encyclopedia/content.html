@@ -6,4 +6,9 @@
 
 {% block body %}
   {{ page_content|safe }}
+  <form action="{% url 'pages:edit' %}">
+    <input hidden type="text"  name="entry" id="entry" value="{{name}}">
+    <textarea hidden name="entry_text" id="entry_text" cols="30" rows="10">{{md_content}}</textarea>
+    <input type="submit" value="Edit">
+  </form>
 {% endblock%}
