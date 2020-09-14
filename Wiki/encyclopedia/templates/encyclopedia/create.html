@@ -1,14 +1,26 @@
 {% extends "encyclopedia/layout.html" %}
 
+
 {% block title %}
   Create New Page
 {% endblock %}
 
 {% block body %}
-  <h1>Create New Page</h1>
-  <form action="{% url 'pages:create_entry' %}">
-    <input type="text" name="title" id="title" placeholder="Enter a new title...">
-    <textarea name="new_entry" id="new_entry" cols="30" rows="5"></textarea>
-  <input type="submit" value="Submit">
-  </form>
+  <h1>Create New Entry</h1>
+  <div>
+    <form action="{% url 'pages:create_entry' %}">
+      <div style="text-align: left; padding-bottom: 20px;">
+        <input  
+        type="text" name="title" id="title" placeholder="Enter a new title...">
+      </div>
+      
+        <textarea style="height: 350px;"
+        name="new_entry" id="new_entry" cols="1" rows="5" placeholder="Enter content for the new entry"></textarea>
+      <div style="text-align: left;">
+        <input type="submit" value="Save New Page">
+      </div>
+        
+    </form>
+  </div>
+  
 {% endblock %}

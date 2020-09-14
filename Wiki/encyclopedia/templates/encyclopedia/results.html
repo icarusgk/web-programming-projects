@@ -6,15 +6,13 @@
 
 {% block body %}
     <h1>Search Results</h1>
-    {% if number_of_results == 1 %}
-        <p>There is {{number_of_results}} entry containing "{{query}}"</p>
-    {% else %}
-        <p>There are {{number_of_results}} entries containing "{{query}}" are:</p>
-    {% endif %}
+    <p>You might have referred to:</p>
     
     <ul>
     {% for result in results %}        
-        <a href="/wiki/{{result}}"><li>{{result}}</li></a>        
+        <a href="/wiki/{{result}}"><li>{{result}}</li></a>
+    {% empty %}
+        <p>No results</p>        
     {% endfor %}
     </ul>
 {% endblock %}
