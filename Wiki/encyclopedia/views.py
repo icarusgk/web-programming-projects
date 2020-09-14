@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+import random as rd
 
 entries = util.list_entries()
 
@@ -20,8 +21,8 @@ def content(request, name):
   if name in util.list_entries():
     return render(request, "encyclopedia/content.html", {
     	"page_content": util.convert(name),
-			"md_content": util.get_entry(name),
-			"name": name
+			"name": name,
+			"md_content": util.get_entry(name)
     })
   else:
   	return render(request, "encyclopedia/not_found.html", {
@@ -85,10 +86,9 @@ def create_entry(request):
 	if request.method == "GET":
 		new_entry = request.GET.get('new_entry', '')
 		title = request.GET.get('title', '')
-
-		util.save_entry(title, new_entry)
-
-		entries.append(title)
+		if new_entry and title:
+			util.save_entry(title, new_entry)
+			entries.append(title)
 		
 		message = "You successfully created a new page"
 
@@ -118,3 +118,13 @@ def edit_page(request):
 			"name": updated_title,
 			"md_content": updated_content 
 		})
+
+def random(request):
+	n_page = rd.randint(0, entries.__len__()-1)
+	page = entries[n_page]
+
+	return render(request, "encyclopedia/content.html",{
+		"page_content": util.convert(page),
+		"name": page,
+		"md_content": util.get_entry(page)
+	})
