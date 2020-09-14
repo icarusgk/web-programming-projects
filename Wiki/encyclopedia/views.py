@@ -33,6 +33,7 @@ def content(request, name):
 		})
 
 # Search
+
 def search(request):
 	"""
 	Searches along the entries to determine if 
@@ -100,6 +101,8 @@ def create_entry(request):
 			"md_content": new_entry
 		})
 
+# Edit 
+
 def edit(request):
 	if request.method == "GET":
 		title = request.GET.get('entry', '')
@@ -125,6 +128,8 @@ def edit_page(request):
 			"name": updated_title,
 			"md_content": updated_content 
 		})
+
+# Random
 
 def random(request):
 	"""
