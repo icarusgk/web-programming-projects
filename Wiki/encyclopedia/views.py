@@ -3,7 +3,7 @@ from . import util
 from django.http import HttpResponse
 from django import forms
 from django.urls import reverse
-
+from django.http import HttpResponseRedirect
 
 entries = util.list_entries()
 
@@ -11,19 +11,23 @@ entries = util.list_entries()
 
 def index(request):
 	return render(request, "encyclopedia/index.html", {
-    "entries": entries,
+    "entries": entries
   })
 
 # Page Content
+
 def content(request, name):
   if name in util.list_entries():
     return render(request, "encyclopedia/content.html", {
-      "page_content": util.convert(name)
+    	"page_content": util.convert(name),
+			"md_content": util.get_entry(name),
+			"name": name
     })
   else:
   	return render(request, "encyclopedia/not_found.html", {
 			"page_name": name
 		})
+		
 
 results = []
 chars = []
@@ -31,8 +35,6 @@ clean_data = ""
 n_results = 0
 
 # Search
-
-
 def search(request):
 	"""
 	Searches along the entries to determine if 
@@ -92,4 +94,27 @@ def create_entry(request):
 
 		return render(request, "encyclopedia/add.html", {
 			"message": message
+		})
+
+def edit(request):
+	if request.method == "GET":
+		title = request.GET.get('entry', '')
+		content = request.GET.get('entry_text', '')
+
+	return render(request, "encyclopedia/edit.html", {
+		"title": title,
+		"content": content
+	})
+
+def edit_page(request):
+	if request.method == "GET":
+		updated_title = request.GET.get('edit_title', '')
+		updated_content = request.GET.get('edit_text', '')
+
+		util.save_entry(updated_title, updated_content)
+
+		return render(request, "encyclopedia/content.html", {
+			"page_content": util.convert(updated_title),
+			"name": updated_title,
+			"md_content": updated_content 
 		})
