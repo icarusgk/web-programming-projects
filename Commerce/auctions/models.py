@@ -7,7 +7,11 @@ class User(AbstractUser):
 
 # Auction Listings
 class Listing(models.Model):
-    pass
+    product_name = models.CharField(max_length=256)
+    description = models.CharField(max_length=256)
+    start_bid = models.FloatField(max_length=16)
+    image_url = models.URLField()
+
 # Bids
 class Bid(models.Model):
     pass
