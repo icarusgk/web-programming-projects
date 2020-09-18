@@ -5,7 +5,8 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-# Auction Listings
+
+# Listings
 class Listing(models.Model):
     product_name = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
@@ -22,4 +23,7 @@ class Comment(models.Model):
 
 # Auction Categories
 class Category(models.Model):
+    pass
+
+class Auction(models.Model):
     pass
