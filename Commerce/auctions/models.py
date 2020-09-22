@@ -5,7 +5,6 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-
 # Listings
 class Listing(models.Model):
     product_name = models.CharField(max_length=256)
@@ -15,15 +14,16 @@ class Listing(models.Model):
 
 # Bids
 class Bid(models.Model):
-    pass
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    start_bid = models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)    
 
 # Comments
 class Comment(models.Model):
-    pass
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=256)
 
 # Auction Categories
 class Category(models.Model):
-    pass
-
-class Auction(models.Model):
-    pass
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    category = models.CharField(max_length=50)
