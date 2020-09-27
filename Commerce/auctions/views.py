@@ -5,10 +5,15 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Listing
-
+from .forms import ListingForm
 
 def index(request):
     return render(request, "auctions/index.html")
+
+def forms(request):
+    return render(request, "auctions/forms.html", {
+        "form": ListingForm
+    })
 
 
 def login_view(request):
