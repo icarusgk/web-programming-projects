@@ -7,8 +7,24 @@ from django.urls import reverse
 from .models import User, Listing, Category
 from .forms import ListingForm
 
+listings = list(Listing.objects.values())
+names = []
+for i in listings:
+    names.append(i['product_name'])
+
 def index(request):
-    return render(request, "auctions/index.html")
+    
+
+    return render(request, "auctions/index.html", {
+        "list": listings,
+        "names": names
+    })
+
+def content(request, name):
+    if name in names:
+        return render(request, 'auctions/content.html', {
+            "name": name
+        })
 
 def forms(request):
     return render(request, "auctions/forms.html", {
@@ -16,8 +32,6 @@ def forms(request):
     })
 
 def input(request):
-    user = User.objects.first()
-    category = Category.objects.first()
     if request.method == "POST":
         form = ListingForm(request.POST)
 
@@ -26,6 +40,9 @@ def input(request):
             description = form.cleaned_data['description']
             image_url = form.cleaned_data['image_url']
 
+            user = User.objects.get(username="icarus")
+            category = Category.objects.get(name="Health")
+            
             new = Listing(
                 product_name=title, 
                 description=description, 
