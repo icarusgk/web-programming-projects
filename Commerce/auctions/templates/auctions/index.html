@@ -3,5 +3,18 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    TODO <br>
+    {% for name in names %}
+        <a href="">{{name}}</a>
+    {% endfor %}
+
+    {% for l in list %}
+        <div>
+        {% for k, v in l.items %}
+            {{k}} - {{v}} <br>
+        {% endfor %}
+        <hr>
+        </div>
+        
+    {% endfor %}
 {% endblock %}
