@@ -4,20 +4,22 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Listing, Category
-from .forms import ListingForm
+from .models import User, Listing, Category, Bid
+from .forms import ListingForm, CommentForm
 
 listings = list(Listing.objects.values())
 names = []
+descriptions = []
+
 for i in listings:
     names.append(i['product_name'])
+    descriptions.append(i['description'])
 
 def index(request):
-    
 
     return render(request, "auctions/index.html", {
         "list": listings,
-        "names": names
+        "comment": CommentForm()
     })
 
 def content(request, name):
@@ -39,21 +41,32 @@ def input(request):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             image_url = form.cleaned_data['image_url']
+            bid = form.cleaned_data['bid']
+            categories = form.cleaned_data['category']
 
-            user = User.objects.get(username="icarus")
-            category = Category.objects.get(name="Health")
+            if len(categories) == 1:
+                category = Category.objects.get(name="Technology")
+            else:
+                # for loop here
+                pass
             
+            user = User.objects.get(username="icarus")
+
             new = Listing(
-                product_name=title, 
-                description=description, 
-                image_url=image_url, 
-                is_active=True,
-                user=user, 
-                category=category)
+                product_name = title, 
+                description = description,
+                image_url = image_url, 
+                is_active = True,
+                user = user, 
+                category = category)
             new.save()
 
+            new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
+            new_bid.save()
+
             return render(request, "auctions/input.html", {
-                "message": "Congratulations!"
+                "message": "Congratulations!",
+                "category": categories
             })
 
 def login_view(request):
