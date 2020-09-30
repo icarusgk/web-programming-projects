@@ -11,12 +11,18 @@ listings = list(Listing.objects.values())
 names = []
 descriptions = []
 
-for i in listings:
-    names.append(i['product_name'])
-    descriptions.append(i['description'])
+keys = ["product_name", "description", "user_id"]
+products = {}
+products_list = []
 
 def index(request):
 
+    for i in range(len(listings)):
+        for j in keys:
+            products[j] = listings[i][j]
+        
+    
+    
     return render(request, "auctions/index.html", {
         "list": listings,
         "comment": CommentForm()
@@ -44,12 +50,10 @@ def input(request):
             bid = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
-            if len(categories) == 1:
-                category = Category.objects.get(name="Technology")
-            else:
-                # for loop here
-                pass
-            
+            for i in categories:
+                list_categories = Category.objects.get(id=i)
+                         
+
             user = User.objects.get(username="icarus")
 
             new = Listing(

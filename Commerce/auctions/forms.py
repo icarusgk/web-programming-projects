@@ -9,12 +9,18 @@ class ListingForm(forms.Form):
     image_url = forms.URLField()
     bid = forms.FloatField()
     category = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        choices=CHOICES
+        widget = forms.CheckboxSelectMultiple,
+        choices = CHOICES
     )
 
 class CommentForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea, max_length=256)
+    DEMO_CHOICES = (
+        ("1", "Naveen"),
+        ("2", "Pranav"),
+        ("3", "Isha"),
+        ("4", "Saloni"),
+    )
 
 
     
