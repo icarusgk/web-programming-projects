@@ -2,20 +2,14 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO <br>
-    {% for p in products %}
-        <a href="">{{p}}</a>
+    <div style="margin: auto; text-align: center;">
+    {% for l in listt %}
+    <div style="float: left; width: 200px; margin: 20px; border-radius: 10px; border: black 2px solid; padding: 10px; text-align: center;">
+        <h4 style="text-align: center;">{{l.product_name}}</h4> <br>
+        <p>{{l.description}}</p> <br>
+        <img src="{{l.image_url}}" alt="" width="150px"><br>
+    </div>
     {% endfor %}
-
-    {% for l in list %}
-        <div>
-        {% for k, v in l.items %}
-            {{k}} - {{v}} <br>
-        {% endfor %}
-        <hr>
-        </div>
-    {% endfor %}
-
+    </div>
     
 {% endblock %}
