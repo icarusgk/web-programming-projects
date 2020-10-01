@@ -7,24 +7,28 @@ from django.urls import reverse
 from .models import User, Listing, Category, Bid
 from .forms import ListingForm, CommentForm
 
+listing = list(Listing.objects.all())
 listings = list(Listing.objects.values())
-names = []
-descriptions = []
-
 keys = ["product_name", "description", "user_id"]
-products = {}
-products_list = []
+
+product_names = []
+descriptions = []
+users = []
+
+
+for i in listing:
+    product_names.append(i.product_name)
+    descriptions.append(i.description)
+    users.append(i.user.username)
+
+products = list(zip(product_names, descriptions, users))
 
 def index(request):
-
-    for i in range(len(listings)):
-        for j in keys:
-            products[j] = listings[i][j]
-        
-    
+   
     
     return render(request, "auctions/index.html", {
-        "list": listings,
+        "list": products,
+        "listt": listings,
         "comment": CommentForm()
     })
 
@@ -50,9 +54,10 @@ def input(request):
             bid = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
-            for i in categories:
-                list_categories = Category.objects.get(id=i)
+            # for i in categories:
+            #     list_categories = Category.objects.get(id=i)
                          
+            category = Category.objects.get(name="Health")
 
             user = User.objects.get(username="icarus")
 
@@ -69,8 +74,7 @@ def input(request):
             new_bid.save()
 
             return render(request, "auctions/input.html", {
-                "message": "Congratulations!",
-                "category": categories
+                "message": "Congratulations!"
             })
 
 def login_view(request):
