@@ -3,13 +3,13 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+import datetime as dt
 
 from .models import User, Listing, Category, Bid
 from .forms import ListingForm, CommentForm
 
 listing = list(Listing.objects.all())
-listings = list(Listing.objects.values())
-keys = ["product_name", "description", "user_id"]
+
 
 product_names = []
 descriptions = []
@@ -23,8 +23,10 @@ for i in listing:
 
 products = list(zip(product_names, descriptions, users))
 
+
 def index(request):
-   
+    
+    listings = list(Listing.objects.values())
     
     return render(request, "auctions/index.html", {
         "list": products,
@@ -64,6 +66,7 @@ def input(request):
             new = Listing(
                 product_name = title, 
                 description = description,
+                datetime = dt.datetime.now(),
                 image_url = image_url, 
                 is_active = True,
                 user = user, 
