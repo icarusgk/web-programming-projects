@@ -42,7 +42,7 @@ def content(request, name):
 
 def forms(request):
     return render(request, "auctions/forms.html", {
-        "form": ListingForm
+        "form": ListingForm()
     })
 
 def input(request):
