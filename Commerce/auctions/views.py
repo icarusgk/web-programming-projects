@@ -17,12 +17,11 @@ users = []
 
 
 for i in listing:
-	product_names.append(i.product_name)
-	descriptions.append(i.description)
-  users.append(i.user.username)
+		product_names.append(i.product_name)
+		descriptions.append(i.description)
+		users.append(i.user.username)
 
 products = list(zip(product_names, descriptions, users))
-
 
 def index(request):
 		
@@ -34,10 +33,28 @@ def index(request):
 			"comment": CommentForm()
 		})
 
-def content(request, name):
-	if name in names:
+def product(request, name):
+	if name in product_names:
+		product = Listing.objects.get(product_name=name)
+		name = product.product_name
+		description = product.description
+		user = product.user
+		date = product.datetime
+		categories = product.category.values()
+		bid = Bid.objects.get(listing=product)
+		
 		return render(request, 'auctions/content.html', {
-			"name": name
+			"name": name,
+			"description": description,
+			"user": user,
+			"date": date,
+			"categories": categories,
+			"start_bid": bid.start_bid,
+			"final_bid": bid.final_bid
+		})
+	else:
+		return render(request, 'auctions/content.html', {
+			"error": f"This page '{name}' doesn't exist."
 		})
 
 def forms(request):
@@ -60,7 +77,7 @@ def input(request):
 			#     list_categories = Category.objects.get(id=i)
 									 
 			category = Category.objects.get(name="Health")
-			user = User.objects.get(username="icarus")
+			user = User.objects.get(username="paola")
 
 			new = Listing(
 				product_name = title, 
@@ -70,14 +87,14 @@ def input(request):
 				is_active = True,
 				user = user, 
 				category = category)
-				new.save()
+			new.save()
 
-				new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
-				new_bid.save()
+			new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
+			new_bid.save()
 
-				return render(request, "auctions/input.html", {
-					"message": "Congratulations!"
-				})
+			return render(request, "auctions/input.html", {
+				"message": "Congratulations!"
+			})
 
 def login_view(request):
 	if request.method == "POST":
@@ -87,14 +104,14 @@ def login_view(request):
 		password = request.POST["password"]
 		user = authenticate(request, username=username, password=password)
 
-			# Check if authentication successful
-			if user is not None:
-				login(request, user)
-					return HttpResponseRedirect(reverse("index"))
-			else:
-				return render(request, "auctions/login.html", {
-					"message": "Invalid username and/or password."
-				})
+		# Check if authentication successful
+		if user is not None:
+			login(request, user)
+			return HttpResponseRedirect(reverse("index"))
+		else:
+			return render(request, "auctions/login.html", {
+				"message": "Invalid username and/or password."
+			})
 	else:
 		return render(request, "auctions/login.html")
 
@@ -112,20 +129,20 @@ def register(request):
 		# Ensure password matches confirmation
 		password = request.POST["password"]
 		confirmation = request.POST["confirmation"]
-			if password != confirmation:
-				return render(request, "auctions/register.html", {
-					"message": "Passwords must match."
-				})
+		if password != confirmation:
+			return render(request, "auctions/register.html", {
+				"message": "Passwords must match."
+			})
 
 		# Attempt to create new user
 		try:
 			user = User.objects.create_user(username, email, password)
-				user.save()
+			user.save()
 		except IntegrityError:
 			return render(request, "auctions/register.html", {
 				"message": "Username already taken."
 			})
 		login(request, user)
-			return HttpResponseRedirect(reverse("index"))
+		return HttpResponseRedirect(reverse("index"))
 	else:
 		return render(request, "auctions/register.html")
