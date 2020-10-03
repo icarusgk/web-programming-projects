@@ -1,0 +1,12 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <p id="product-title">{{name}}</p> <br>
+    {{description}} <br>
+    {{user}} <br>
+    {{date}} <br>
+    {{categories}} <br>
+    Initial Bid was: {{start_bid}} <br>
+    Last Bid on: {{final_bid}}
+    {{error}}
+{% endblock %}

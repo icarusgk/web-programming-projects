@@ -1,27 +1,41 @@
 #title {
     font-family: 'Source Sans Pro';
     font-weight: 600;
+    color: black;
 }
 
 #description {
     font-family: 'JetBrains Mono Medium';
+    color: black;
 }
 
 #container {
-    margin: auto;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+    align-items: stretch;
+    color: black;
 }
 
 .product-div {
     float: left; 
-    width: 200px; 
+    width: 220px; 
     margin: 20px; 
     border-radius: 10px; 
     border: black 2px solid; 
     padding: 10px; 
     text-align: center;
+    border: 5px solid #ffcc5c;
+    color: black;
 }
 
 #product-img {
-    width: 150px;
+    width: 170px;
+}
+
+#date {
+    font-weight: 300;
+    font-style: italic;
+    color:gray;
 }
