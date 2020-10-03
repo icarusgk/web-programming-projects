@@ -21,7 +21,7 @@ class Listing(models.Model):
     image_url = models.URLField()  
     is_active = models.BooleanField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Category)
     
     def __str__(self):
         return f"{self.product_name} - ({self.user}) on {self.datetime}"
