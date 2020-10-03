@@ -1,6 +1,6 @@
 ## Web Programming Projects :tongue:
 ![Header]
-(blob/master/header.png)
+(header.png)
 Series of projects of Harvard's Web Programming Course
 
 - [x] Search
