@@ -1,5 +1,5 @@
 ## Web Programming Projects :tongue:
-![Header](./project-header.png)
+![Project Header](./project-header.png)
 Series of projects of Harvard's Web Programming Course
 
 - [x] Search
