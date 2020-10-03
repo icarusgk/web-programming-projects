@@ -1,6 +1,5 @@
 ## Web Programming Projects :tongue:
-![Header]
-(header.png)
+![Header](./header.png)
 Series of projects of Harvard's Web Programming Course
 
 - [x] Search
