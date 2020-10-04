@@ -1,6 +1,7 @@
 ## Web Programming Projects :tongue:
 ![Project Header](./project-header.png)
-Roger Castro
+
+**Roger Castro**
 
 Series of projects of Harvard's Web Programming Course
 
