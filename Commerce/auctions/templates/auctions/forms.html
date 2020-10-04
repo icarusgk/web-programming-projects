@@ -1,6 +1,7 @@
 {% extends "auctions/layout.html" %}
 
-{% block body %}    
+{% block body %}
+<h1>Add a new item</h1>
     <form action="{% url 'input' %}" method="POST">
     {% csrf_token %}
         <div>

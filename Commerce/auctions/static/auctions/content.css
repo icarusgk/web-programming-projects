@@ -1,5 +1,59 @@
-#product-title {
-    font-size: 80px;
-    font-family: 'JetBrains Mono';
-    font-weight: bold;
+#details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#p-title {
+    font-size: 70px;
+    font-family: 'MarketSans-SemiBold-WebS';
+    font-weight: 600;
+}
+
+#p-image {
+    width: 200px;
+    flex: 1;
+}
+
+#details{
+    padding-left: 20px;
+    font-family: 'MarketSans-Regular-WebS';
+}
+
+#p-date {
+    font-size: 12px;
+}
+
+#p-final-bid {
+    font-family: 'MarketSans-SemiBold-WebS';
+    font-size: 30px;
+}
+
+#p-comments {
+    margin-top: 20px;
+}
+
+#id_comment {
+    height: 100px;
+    width: 700px;
+    resize: none;
+    font-family: 'Source Sans Pro';
+}
+
+.comment-body {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(201, 233, 194);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    width: 800px;
+}
+
+.p-user {
+    font-family: 'MarketSans-SemiBold-WebS';
+}
+
+.p-comment-body {
+    font-family: 'Source Sans Pro';
 }

@@ -1,12 +1,47 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <p id="product-title">{{name}}</p> <br>
-    {{description}} <br>
-    {{user}} <br>
-    {{date}} <br>
-    {{categories}} <br>
-    Initial Bid was: {{start_bid}} <br>
-    Last Bid on: {{final_bid}}
-    {{error}}
+    {% if name %}
+    <p id="p-title">{{name}}</p>  
+    <div id="container"> 
+        
+        <img src="{{image}}" id="p-image">
+        <div id="details">
+            <p id="p-final-bid">$ {{final_bid}}</p>
+            <p id="p-description">{{description}}</p>
+            <p id="p-user">Uploaded by: {{user}}</p> 
+            <p id="p-date">On: {{date}}</p>
+            <p id="p-initial-bid">Initial Bid was: $ {{start_bid}}</p>
+            
+            <form action="{% url 'bid' %}" method="POST">
+                {% csrf_token %}
+                <p>Submit a new bid:</p>
+                {{new_bid.new_bid}}
+                <input type="hidden" name="page_name" value="{{name}}">
+                <input type="submit" value="Make a new bid">
+            </form>
+            <p id="p-current-bids">There are {{current_bids}} bids for this product</p>
+        </div>
+    </div>
+    {% else %}
+        {{error}}
+    {% endif %}
+
+    <h4 id="p-comments">Comments</h4>
+    <form action="{% url 'comment' %}" method="POST">
+        {% csrf_token %}
+        {{comment}} <br>
+        <input type="hidden" name="page_name" value="{{name}}">
+        <input type="submit" value="Add Comment">
+    </form>
+    {% for comment in comments %}
+        <div class="comment-body">
+            <p class="p-user">{{comments.0.user.username}} says:</p>
+            <p class="p-comment-body">{{comment.body}}</p>
+        </div>
+            {% empty %}
+            <p class="p-comment-body">No comments</p>
+        
+    {% endfor %}
+
 {% endblock %}
