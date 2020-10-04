@@ -14,13 +14,8 @@ class ListingForm(forms.Form):
     )
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea, max_length=256)
-    DEMO_CHOICES = (
-        ("1", "Naveen"),
-        ("2", "Pranav"),
-        ("3", "Isha"),
-        ("4", "Saloni"),
-    )
-
-
+    comment = forms.CharField(widget=forms.Textarea, max_length=256, label="")
+    
+class BidForm(forms.Form):
+    new_bid = forms.FloatField()
     
