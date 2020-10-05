@@ -1,3 +1,9 @@
+#p-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
 #details {
     display: flex;
     flex-direction: column;
@@ -11,13 +17,14 @@
 }
 
 #p-image {
-    width: 200px;
+    width: 1%;
     flex: 1;
 }
 
 #details{
     padding-left: 20px;
     font-family: 'MarketSans-Regular-WebS';
+    flex: 2;
 }
 
 #p-date {
@@ -27,6 +34,16 @@
 #p-final-bid {
     font-family: 'MarketSans-SemiBold-WebS';
     font-size: 30px;
+}
+
+#id_new_bid {
+    border-radius: 5px;
+}
+
+#submit-bid {
+    background-color: rgb(78, 110, 255);
+    color: white;
+    border-radius: 5px;
 }
 
 #p-comments {

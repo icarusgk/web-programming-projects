@@ -8,33 +8,42 @@ import datetime as dt
 from .models import User, Listing, Category, Bid, Comment
 from .forms import ListingForm, CommentForm, BidForm
 
-bid_list = []
-
 def index(request):
 
-	listings = list(Listing.objects.values())
+	listing = list(Listing.objects.all())
 
-	return render(request, "auctions/index.html", {
-		"listt": listings,
-		"comment": CommentForm()
+	product_names = []
+	images = []
+	descriptions = []
+	price = []
+
+	for i in listing:
+		product_names.append(i.product_name)
+		descriptions.append(i.description)
+		images.append(i.image_url)
+		product_price = Bid.objects.get(listing=i.id)
+		price.append(product_price.final_bid)
+
+	products = list(zip(product_names, descriptions, images, price))
+
+
+	return render(request, "auctions/index2.html", {
+		"products": products
 	})
+
 
 def product(request, name):
 
 	listing = list(Listing.objects.all())
 
-
 	product_names = []
-	descriptions = []
-	users = []
-
+	category = []
 
 	for i in listing:
 		product_names.append(i.product_name)
-		descriptions.append(i.description)
-		users.append(i.user.username)
+		category.append(i.category.all())
 
-	products = list(zip(product_names, descriptions, users))
+
 
 	if name in product_names:
 		product = Listing.objects.get(product_name=name)
@@ -45,7 +54,7 @@ def product(request, name):
 		date = product.datetime
 		categories = product.category.values()
 		bid = Bid.objects.get(listing=product)
-		current_bids = len(bid_list)
+		current_bids = bid.amount
 		comments = Comment.objects.filter(product=product)
 		
 		return render(request, 'auctions/content.html', {
@@ -60,7 +69,7 @@ def product(request, name):
 			"current_bids": current_bids,
 			"comment": CommentForm(),
 			"comments": comments,
-			"new_bid": BidForm()
+			"new_bid": BidForm(initial={'new_bid': bid.final_bid})
 		})
 	else:
 		return render(request, 'auctions/content.html', {
@@ -75,6 +84,7 @@ def forms(request):
 def input(request):
 	if request.method == "POST":
 		form = ListingForm(request.POST)
+		listing = request.POST['title']
 
 		if form.is_valid():
 			title = form.cleaned_data['title']
@@ -102,10 +112,7 @@ def input(request):
 			new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
 			new_bid.save()
 
-			return render(request, "auctions/index.html", {
-				"message": "Congratulations!",
-				"cat": categories
-			})
+			return product(request, listing)
 
 def bid(request):
 	if request.method == "POST":
@@ -120,7 +127,7 @@ def bid(request):
 			new_bid = Bid.objects.get(listing=current_listing)
 
 			if bid > new_bid.final_bid:
-				bid_list.append(bid)
+				new_bid.amount += 1
 				new_bid.final_bid = bid
 				new_bid.save()
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -136,7 +143,7 @@ def comment(request):
 
 		if form.is_valid():
 			comment = form.cleaned_data['comment']
-			current_user = User.objects.get(username="paola")
+			current_user = User.objects.get(username="icarus")
 			current_product = Listing.objects.get(product_name=product)
 
 			new_comment = Comment(

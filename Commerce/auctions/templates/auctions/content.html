@@ -3,7 +3,7 @@
 {% block body %}
     {% if name %}
     <p id="p-title">{{name}}</p>  
-    <div id="container"> 
+    <div id="p-container"> 
         
         <img src="{{image}}" id="p-image">
         <div id="details">
@@ -18,15 +18,16 @@
                 <p>Submit a new bid:</p>
                 {{new_bid.new_bid}}
                 <input type="hidden" name="page_name" value="{{name}}">
-                <input type="submit" value="Make a new bid">
+                <input type="submit" value="Place bid" id="submit-bid">
             </form>
+            {% if current_bids == 1 %}
+            <p id="p-current-bids">There is {{current_bids}} bid for this product</p>
+            {% else %}
             <p id="p-current-bids">There are {{current_bids}} bids for this product</p>
+            {% endif %}
         </div>
     </div>
-    {% else %}
-        {{error}}
-    {% endif %}
-
+    <hr>
     <h4 id="p-comments">Comments</h4>
     <form action="{% url 'comment' %}" method="POST">
         {% csrf_token %}
@@ -34,6 +35,7 @@
         <input type="hidden" name="page_name" value="{{name}}">
         <input type="submit" value="Add Comment">
     </form>
+    <hr>
     {% for comment in comments %}
         <div class="comment-body">
             <p class="p-user">{{comments.0.user.username}} says:</p>
@@ -41,7 +43,12 @@
         </div>
             {% empty %}
             <p class="p-comment-body">No comments</p>
-        
     {% endfor %}
+
+    {% else %}
+        {{error}}
+    {% endif %}
+
+    
 
 {% endblock %}
