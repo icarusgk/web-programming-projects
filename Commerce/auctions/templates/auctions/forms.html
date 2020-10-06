@@ -6,6 +6,7 @@
     {% csrf_token %}
         <div>
             {{form.as_p}}
+            <input type="hidden" name="user_name" value="{{ user.username }}">
             <input type="submit" value="Submit">    
         </div>
     </form>
