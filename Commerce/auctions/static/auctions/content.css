@@ -46,6 +46,11 @@
     border-radius: 5px;
 }
 
+#close-auction {
+    background-color: rgb(248, 58, 58);
+    color: white;;
+}
+
 #p-comments {
     margin-top: 20px;
 }
