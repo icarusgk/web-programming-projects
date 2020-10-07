@@ -13,29 +13,55 @@
             <p id="p-date">On: {{date}}</p>
             <p id="p-initial-bid">Initial Bid was: $ {{ start_bid }}</p>
             
+            
+            {% if user.is_authenticated %}
             <form action="{% url 'bid' %}" method="POST">
                 {% csrf_token %}
-                <p>Submit a new bid:</p>
-                {{ new_bid.new_bid }}
-                <input type="hidden" name="page_name" value="{{ name }}">
-                <input type="hidden" name="user_name" value="{{ user.username }}">
-                <input type="submit" value="Place bid" id="submit-bid">
+                {% if bid_user == user  %}
+                    You are the lister.
+                {% elif bid_user != user and is_active == True %}
+                    <p>Submit a new bid:</p>
+                        {{ new_bid.new_bid }}
+                        <input type="hidden" name="page_name" value="{{ name }}">
+                        <input type="hidden" name="user_name" value="{{ user.username }}">
+                        <input type="submit" value="Place bid" id="submit-bid">
+                {% endif %}
             </form>
-            {% if current_bids == 1 %}
-            <p id="p-current-bids">There is {{ current_bids }} bid for this product</p>
             {% else %}
-            <p id="p-current-bids">There are {{ current_bids }} bids for this product</p>
+            <p>To place a bid please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
             {% endif %}
+            
+                {% if current_bids == 0 %}
+                    <p id="p-current-bids">There are no current bids for this products.</p>
+                {% elif current_bids == 1 %}
+                    <p id="p-current-bids">There is {{ current_bids }} bid for this product</p>
+                    <p>The last bid was made by: {{ last_bid_user }}</p>
+                {% else %}
+                    <p id="p-current-bids">There are {{ current_bids }} bids for this product</p>
+                    <p>The last bid was made by: {{ last_bid_user }}</p>
+                {% endif %}    
 
-            {% if is_active == True %}
+            {% if bid_user == user and is_active == True %}
                 <form action="{% url 'remove' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="remove_button" value="{{ name }}" >
                     <input type="submit" value="Close auction" id="close-auction">
                 </form>
-            {% else %}
-                <p>This bid is closed</p>
+            {% elif bid_user == user and is_active == False and current_bids == 0 %}
+                <p>You closed the auction.</p>
+                <p>No bid was placed</p>
+            {% elif bid_user != user and is_active == False and current_bids == 0 %}
+                <p>The auction was closed.</p>
+                <p>No bid was placed</p>
+            {% elif bid_user == user and is_active == False %}
+                <p>You closed the auction</p>
+                <p style="color: green;">{{ last_bid_user }} was the winner.</p>
+
+            {% elif bid_user != user and is_active == False %}
+                <p>The auction was closed.</p>
+                <p style="color: green;">{{ last_bid_user }} was the winner.</p>
             {% endif %}
+
         </div>
     </div>
     <hr>
@@ -51,8 +77,8 @@
         <hr>
         {% for comment in comments %}
             <div class="comment-body">
-                <p class="p-user">icarus says:</p>
-                <p class="p-comment-body">{{ comment.body }}</p>
+                <p class="p-user">{{ comment.0 }} says:</p>
+                <p class="p-comment-body">{{ comment.1 }}</p>
             </div>
                 {% empty %}
                 <p class="p-comment-body">No comments</p>
@@ -60,8 +86,8 @@
     {% else %}
         {% for comment in comments %}
         <div class="comment-body">
-            <p class="p-user">icarus says:</p>
-            <p class="p-comment-body">{{ comment.body }}</p>
+            <p class="p-user">{{ comment.0 }} says:</p>
+            <p class="p-comment-body">{{ comment.1 }}</p>
         </div>
             {% empty %}
             <p class="p-comment-body">No comments</p>
