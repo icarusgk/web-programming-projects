@@ -52,10 +52,22 @@ def content(request, name):
 		bid_user = product.user
 		date = product.datetime
 		categories = product.category.values()
-		bid = Bid.objects.get(listing=product)
+		bid = Bid.objects.get(listing = product)
+		last_bid_user = bid.user
 		current_bids = bid.amount
-		comments = Comment.objects.filter(product=product)
 		is_active = product.is_active
+		comments_all = Comment.objects.filter(product = product)
+
+		comment_user = []
+		comment_content = []
+		
+
+		for comment in comments_all:
+			comment_user.append(comment.user)
+			comment_content.append(comment.body)
+
+		comments = list(zip(comment_user, comment_content))			
+
 		
 		return render(request, 'auctions/content.html', {
 			"name": name,
@@ -66,6 +78,7 @@ def content(request, name):
 			"categories": categories,
 			"start_bid": bid.start_bid,
 			"final_bid": bid.final_bid,
+			"last_bid_user": last_bid_user,
 			"current_bids": current_bids,
 			"comment": CommentForm(),
 			"comments": comments,
@@ -115,7 +128,7 @@ def input(request):
 			new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
 			new_bid.save()
 
-			return product(request, listing)
+			return content(request, listing)
 
 def bid(request):
 	if request.method == "POST":
@@ -133,6 +146,7 @@ def bid(request):
 			if bid > new_bid.final_bid:
 				new_bid.amount += 1
 				new_bid.final_bid = bid
+				new_bid.user = user
 				new_bid.save()
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 			else:
@@ -174,6 +188,16 @@ def remove(request):
 		return index(request)
 
 		
+def categories(request):
+	categories = Category.objects.all()
+	name = []
+	category_list = []
+	
+
+	return render(request, 'auctions/categories.html', {
+		"categories": categories
+	})
+
 def login_view(request):
 	if request.method == "POST":
 
