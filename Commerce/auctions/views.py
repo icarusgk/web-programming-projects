@@ -30,7 +30,7 @@ def index(request):
 	products = list(zip(product_names, descriptions, images, price, is_active))
 
 
-	return render(request, "auctions/index2.html", {
+	return render(request, "auctions/index.html", {
 		"products": products
 	})
 
@@ -158,10 +158,11 @@ def comment(request):
 
 		form = CommentForm(request.POST)
 		product = request.POST['page_name']
+		comment_username = request.POST['user_name']
 
 		if form.is_valid():
 			comment = form.cleaned_data['comment']
-			current_user = User.objects.get(username="icarus")
+			current_user = User.objects.get(username=comment_username)
 			current_product = Listing.objects.get(product_name=product)
 
 			new_comment = Comment(

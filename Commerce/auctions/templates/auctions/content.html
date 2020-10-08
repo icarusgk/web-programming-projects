@@ -31,13 +31,19 @@
             <p>To place a bid please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
             {% endif %}
             
-                {% if current_bids == 0 %}
+                {% if current_bids == 0 and is_active == True %}
                     <p id="p-current-bids">There are no current bids for this products.</p>
-                {% elif current_bids == 1 %}
+                {% elif current_bids == 1 and is_active == True %}
                     <p id="p-current-bids">There is {{ current_bids }} bid for this product</p>
                     <p>The last bid was made by: {{ last_bid_user }}</p>
-                {% else %}
+                {% elif current_bids > 1 and is_active == True %}
                     <p id="p-current-bids">There are {{ current_bids }} bids for this product</p>
+                    <p>The last bid was made by: {{ last_bid_user }}</p>
+                {% elif current_bids == 1 and is_active == False %}
+                    <p id="p-current-bids">There was {{ current_bids }} bid for this product</p>
+                    <p>The last bid was made by: {{ last_bid_user }}</p>
+                {% elif current_bids > 1 and is_active == False %}
+                    <p id="p-current-bids">There were {{ current_bids }} bid for this product</p>
                     <p>The last bid was made by: {{ last_bid_user }}</p>
                 {% endif %}    
 

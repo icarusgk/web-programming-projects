@@ -1,14 +1,18 @@
 .container {
-    display: grid;
-    grid-template-columns: 100px 100px;
-    color: black;
+    display: flex;
+    flex-wrap: wrap;    
+}
+.item {
+    flex-direction: row;
+    justify-self: stretch; 
+    border: grey 5px solid;
+    width: 300px;
 }
 
 #title {
     font-family: 'MarketSans-SemiBold-WebS';
     font-weight: 600;
     color: black;
-    margin-top: 15px;
 }
 
 #description {
@@ -17,23 +21,11 @@
 }
 
 .details {
-    margin-left: 20px;
-}
-
-.product-div {
-    display: flex;
-    width: 400px; 
-    margin: 20px; 
-    border-radius: 10px; 
-    border: black 2px solid; 
-    padding: 5px; 
-    text-align: center;
-    border: 2px solid rgb(214, 214, 214);
-    color: black;
+    
 }
 
 #product-img {
-    width: 170px;
+    width: 150px;
 }
 
 #date {
