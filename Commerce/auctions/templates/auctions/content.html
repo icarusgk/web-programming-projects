@@ -13,7 +13,6 @@
             <p id="p-date">On: {{date}}</p>
             <p id="p-initial-bid">Initial Bid was: $ {{ start_bid }}</p>
             
-            
             {% if user.is_authenticated %}
             <form action="{% url 'bid' %}" method="POST">
                 {% csrf_token %}

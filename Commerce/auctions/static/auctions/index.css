@@ -1,34 +1,45 @@
-.container {
+.i-container {
+    border: lightsalmon 1px solid;
+    margin: auto;
     display: flex;
-    flex-wrap: wrap;    
-}
-.item {
     flex-direction: row;
-    justify-self: stretch; 
-    border: grey 5px solid;
-    width: 300px;
+    flex-wrap: wrap;
+    color: black;
+}
+.i-item {
+    border: rgb(179, 250, 244) 1px solid;
+    width: 400px;
+    border-radius: 5px;
+    flex: 1;
+    margin: 10px;
 }
 
-#title {
+.i-image-container {
+    
+}
+
+.i-product-details {
+    
+}
+
+#i-title {
     font-family: 'MarketSans-SemiBold-WebS';
     font-weight: 600;
     color: black;
 }
 
-#description {
+#i-description {
     font-family: 'MarketSans-Regular-WebS';
     color: black;
 }
 
-.details {
-    
-}
-
-#product-img {
+#i-image {
+    padding-top: 20px;
     width: 150px;
+
 }
 
-#date {
+#i-price {
     font-weight: 600;
     font-style: italic;
     color:gray;

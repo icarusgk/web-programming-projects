@@ -1,22 +1,26 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="container">
+    <div class="i-container">
     {% for product in products %}
-        <div class="item">
-        <a href="product/{{product.0}}">        
-            <img src="{{product.2}}" id="product-img"> <br>
-            <h4 id="title">{{ product.0 }}</h4><br>
-            <p id="description">{{ product.1 }}</p> 
-            <p id="date">Price: ${{ product.3 }}</p>
-            {% if product.4 == True %}
-                <p style="color: green;">Active</p>
-            {% else %}
-                <p style="color: red;">Closed</p>
-            {% endif %}
-        </a>
-        </div>
-        
+        <div class="i-item">
+            <a href="product/{{product.0}}">  
+            <div class="i-image-container">
+                <img src="{{product.2}}" id="i-image"> <br>
+            </div>
+
+            <div class="i-product-details">
+                <h4 id="i-title">{{ product.0 }}</h4><br>
+                <p id="i-description">{{ product.1 }}</p> 
+                <p id="i-price">Price: ${{ product.3 }}</p>
+                {% if product.4 == True %}
+                    <p style="color: green;">Active</p>
+                {% else %}
+                    <p style="color: red;">Closed</p>
+                {% endif %}
+            </div>     
+            </a>    
+        </div>        
     {% endfor %}
     </div>
 {% endblock %}
