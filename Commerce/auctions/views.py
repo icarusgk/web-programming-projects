@@ -199,6 +199,19 @@ def categories(request):
 		"categories": categories
 	})
 
+def category(request, name):
+	
+	category_name = Category.objects.get(name=name)
+	product_names = []
+	for product in category_name.listing_set.all():
+		product_names.append(product.product_name)
+
+	# return content(request, listing)
+
+	return render(request, 'auctions/category.html', {
+		"names": product_names
+	})
+
 def login_view(request):
 	if request.method == "POST":
 
