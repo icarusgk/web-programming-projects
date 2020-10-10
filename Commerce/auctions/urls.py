@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("product/<str:name>", views.content, name="content"),
     path("categories", views.categories, name="categories"),
+    path("category/<str:name>", views.category, name="category"),
     path("forms", views.forms, name="forms"),
     path("input", views.input, name="input"),
     path("bid", views.bid, name="bid"),
