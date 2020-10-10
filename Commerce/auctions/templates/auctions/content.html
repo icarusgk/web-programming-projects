@@ -24,8 +24,16 @@
                         <input type="hidden" name="page_name" value="{{ name }}">
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <input type="submit" value="Place bid" id="submit-bid">
-                {% endif %}
-            </form>
+                </form>
+
+                <form action="{% url 'add-watchlist' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{ name }}">
+                    <input type="hidden" name="user_name" value="{{ user.username }}">
+                    <input type="submit" value="Add item to watchlist"> 
+                </form>
+            {% endif %}
+            
             {% else %}
             <p>To place a bid please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
             {% endif %}
