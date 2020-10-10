@@ -82,7 +82,11 @@
         <hr>
         {% for comment in comments %}
             <div class="comment-body">
-                <p class="p-user">{{ comment.0 }} says:</p>
+                {% if bid_user == comment.0 %}
+                    <p class="p-user-lister">{{ comment.0 }} (Lister) says:</p>
+                {% else %}
+                    <p class="p-user">{{ comment.0 }} says:</p>
+                {% endif %}
                 <p class="p-comment-body">{{ comment.1 }}</p>
             </div>
                 {% empty %}
@@ -91,7 +95,11 @@
     {% else %}
         {% for comment in comments %}
         <div class="comment-body">
-            <p class="p-user">{{ comment.0 }} says:</p>
+            {% if bid_user == comment.0 %}
+                <p class="p-user-lister">{{ comment.0 }} (Lister) says:</p>
+            {% else %}
+                <p class="p-user">{{ comment.0 }} says:</p>
+            {% endif %}
             <p class="p-comment-body">{{ comment.1 }}</p>
         </div>
             {% empty %}
