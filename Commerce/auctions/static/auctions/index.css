@@ -1,10 +1,11 @@
 .i-container {
-    border: lightsalmon 1px solid;
+    border: lightsalmon 5px solid;
     margin: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     color: black;
+    align-content: center;
 }
 .i-item {
     border: rgb(179, 250, 244) 1px solid;
@@ -12,6 +13,7 @@
     border-radius: 5px;
     flex: 1;
     margin: 10px;
+    text-align: center;
 }
 
 .i-image-container {
@@ -41,6 +43,7 @@
 
 #i-price {
     font-weight: 600;
+    font-size: x-large;
     font-style: italic;
     color:gray;
 }
