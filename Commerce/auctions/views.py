@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 import datetime as dt
 
-from .models import User, Listing, Category, Bid, Comment
+from .models import User, Listing, Category, Bid, Comment, Watchlist
 from .forms import ListingForm, CommentForm, BidForm
 
 def index(request):
@@ -211,6 +211,26 @@ def category(request, name):
 	return render(request, 'auctions/category.html', {
 		"names": product_names
 	})
+
+def add_watchlist(request):
+	if request.method == "POST":
+		product_name = request.POST["product"]
+		user = request.POST["user_name"]
+
+		current_user = User.objects.get(username=user)
+		current_product = Listing.objects.get(product_name=product_name)
+		user_watchlist = Watchlist.objects.get_or_create(user=current_user)
+
+		user_watchlist[0].product.add(current_product)
+		user_watchlist[0].save()
+
+
+	return render(request, 'auctions/watchlist.html', {
+		"wl": user_watchlist[0].product.all()
+	})
+
+def my_watchlist(request):
+	pass
 
 def login_view(request):
 	if request.method == "POST":
