@@ -1,0 +1,7 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% for name in names %}
+        <a href="../product/{{ name }}">{{name}}</a> <br>
+    {% endfor %}
+{% endblock %}

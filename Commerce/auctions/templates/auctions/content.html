@@ -25,13 +25,23 @@
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <input type="submit" value="Place bid" id="submit-bid">
                 </form>
-
-                <form action="{% url 'add-watchlist' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="product" value="{{ name }}">
-                    <input type="hidden" name="user_name" value="{{ user.username }}">
-                    <input type="submit" value="Add item to watchlist"> 
-                </form>
+                
+                {% if name in watchlist %}
+                    <form action="{% url 'remove-watchlist' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ name }}">
+                        <input type="hidden" name="user_name" value="{{ user.username }}">
+                        <input type="submit" value="Remove item to watchlist" style="color: white; background: red;">
+                    </form>
+                {% else %}
+                    <form action="{% url 'add-watchlist' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ name }}">
+                        <input type="hidden" name="user_name" value="{{ user.username }}">
+                        <input type="submit" value="Add item to watchlist">
+                    </form>
+                {% endif %}
+                
             {% endif %}
             
             {% else %}
@@ -115,7 +125,7 @@
         {% endfor %}
     {% endif %}
     {% else %}
-        {{error}}
+        {{ error }}
     {% endif %}
 
     
