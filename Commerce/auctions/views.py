@@ -56,11 +56,13 @@ def content(request, name):
 		last_bid_user = bid.user
 		current_bids = bid.amount
 		is_active = product.is_active
+		current_user = User.objects.get(username="icarus")	
+		user_watchlist = Watchlist.objects.get(user = current_user)
 		comments_all = Comment.objects.filter(product = product)
 
 		comment_user = []
 		comment_content = []
-		
+		watchlist_products = []
 
 		for comment in comments_all:
 			comment_user.append(comment.user)
@@ -68,6 +70,8 @@ def content(request, name):
 
 		comments = list(zip(comment_user, comment_content))			
 
+		for product in user_watchlist.product.all():
+			watchlist_products.append(product.product_name)
 		
 		return render(request, 'auctions/content.html', {
 			"name": name,
@@ -80,6 +84,7 @@ def content(request, name):
 			"final_bid": bid.final_bid,
 			"last_bid_user": last_bid_user,
 			"current_bids": current_bids,
+			"watchlist": watchlist_products,
 			"comment": CommentForm(),
 			"comments": comments,
 			"is_active": is_active,
@@ -223,14 +228,45 @@ def add_watchlist(request):
 
 		user_watchlist[0].product.add(current_product)
 		user_watchlist[0].save()
-
+		
 
 	return render(request, 'auctions/watchlist.html', {
+		"title": "My Watchlist",
 		"wl": user_watchlist[0].product.all()
 	})
 
-def my_watchlist(request):
-	pass
+def remove_watchlist(request):
+	if request.method == "POST":
+		user = request.POST["user_name"]
+		product = request.POST["product"]
+
+		current_user = User.objects.get(username=user)
+		current_product = Listing.objects.get(product_name=product)
+		user_watchlist = Watchlist.objects.get(user=current_user)
+
+		user_watchlist.product.remove(current_product)
+		user_watchlist.save()
+
+		return render(request, 'auctions/watchlist.html', {
+			"product": product,			
+		})
+
+
+def my_watchlist(request, username):
+	title = "My Watchlist"
+
+	user = User.objects.get(username = username)
+	user_watchlist = Watchlist.objects.get(user = user)
+
+	products_list = []
+	for product in user_watchlist.product.all():
+		products_list.append(product)
+
+		
+	return render(request, 'auctions/watchlist.html', {
+		"title": title,
+		"watchlist": products_list
+	}) 
 
 def login_view(request):
 	if request.method == "POST":
