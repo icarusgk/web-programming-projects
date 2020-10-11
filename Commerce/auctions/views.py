@@ -23,7 +23,7 @@ def index(request):
 		product_names.append(i.product_name)
 		descriptions.append(i.description)
 		images.append(i.image_url)
-		product_price = Bid.objects.get(listing=i.id)
+		product_price = Bid.objects.get(listing = i.id)
 		price.append(product_price.final_bid)
 		is_active.append(i.is_active)
 
@@ -45,7 +45,7 @@ def content(request, name):
 		category.append(i.category.all())
 
 	if name in product_names:
-		product = Listing.objects.get(product_name=name)
+		product = Listing.objects.get(product_name = name)
 		name = product.product_name
 		image = product.image_url
 		description = product.description
@@ -56,7 +56,7 @@ def content(request, name):
 		last_bid_user = bid.user
 		current_bids = bid.amount
 		is_active = product.is_active
-		current_user = User.objects.get(username="icarus")	
+		current_user = User.objects.get(username = "icarus")	
 		user_watchlist = Watchlist.objects.get(user = current_user)
 		comments_all = Comment.objects.filter(product = product)
 
@@ -127,7 +127,7 @@ def input(request):
 			new.save()
 
 			for i in categories:
-				category = Category.objects.get(id=i)
+				category = Category.objects.get(id = i)
 				new.category.add(category)
 
 			new_bid = Bid(user = user, listing = new, start_bid = bid, final_bid = bid)
@@ -222,9 +222,9 @@ def add_watchlist(request):
 		product_name = request.POST["product"]
 		user = request.POST["user_name"]
 
-		current_user = User.objects.get(username=user)
-		current_product = Listing.objects.get(product_name=product_name)
-		user_watchlist = Watchlist.objects.get_or_create(user=current_user)
+		current_user = User.objects.get(username = user)
+		current_product = Listing.objects.get(product_name = product_name)
+		user_watchlist = Watchlist.objects.get_or_create(user = current_user)
 
 		user_watchlist[0].product.add(current_product)
 		user_watchlist[0].save()
@@ -240,9 +240,9 @@ def remove_watchlist(request):
 		user = request.POST["user_name"]
 		product = request.POST["product"]
 
-		current_user = User.objects.get(username=user)
-		current_product = Listing.objects.get(product_name=product)
-		user_watchlist = Watchlist.objects.get(user=current_user)
+		current_user = User.objects.get(username = user)
+		current_product = Listing.objects.get(product_name = product)
+		user_watchlist = Watchlist.objects.get(user = current_user)
 
 		user_watchlist.product.remove(current_product)
 		user_watchlist.save()
@@ -274,7 +274,7 @@ def login_view(request):
 		# Attempt to sign user in
 		username = request.POST["username"]
 		password = request.POST["password"]
-		user = authenticate(request, username=username, password=password)
+		user = authenticate(request, username = username, password = password)
 
 		# Check if authentication successful
 		if user is not None:
