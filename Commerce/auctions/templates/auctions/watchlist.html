@@ -1,13 +1,17 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>{{ title }}</h2>
-    {{ wl }}
+    <h2>My Watchlist</h2>
+
     {% if product %}
         {{ product }} has been removed from your watchlist.
     {% endif %}
    
     {% for product in watchlist %}
-        <a href="../product/{{product.product_name}}">{{product.product_name}}</a> <br>
+        <a href="../product/{{product.product_name}}">
+            {{product.product_name}}
+        </a> 
+        -
+        {{product.description}} <br>
     {% endfor %}
 {% endblock %}
