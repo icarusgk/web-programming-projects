@@ -9,6 +9,8 @@ import datetime as dt
 from .models import User, Listing, Category, Bid, Comment, Watchlist
 from .forms import ListingForm, CommentForm, BidForm
 
+global_username = []
+
 def index(request):
 
 	listing = list(Listing.objects.all())
@@ -138,8 +140,8 @@ def input(request):
 def bid(request):
 	if request.method == "POST":
 		form = BidForm(request.POST)
-		product = request.POST['page_name']
-		user_name = request.POST['user_name']
+		product = request.POST["page_name"]
+		user_name = request.POST["user_name"]
 
 		if form.is_valid():
 			bid = form.cleaned_data['new_bid']
@@ -206,10 +208,11 @@ def categories(request):
 
 def category(request, name):
 	
-	category_name = Category.objects.get(name=name)
+	category_name = Category.objects.get(name = name)
 	product_names = []
 	for product in category_name.listing_set.all():
-		product_names.append(product.product_name)
+		if product.is_active == True:
+			product_names.append(product.product_name)
 
 	# return content(request, listing)
 
@@ -229,10 +232,15 @@ def add_watchlist(request):
 		user_watchlist[0].product.add(current_product)
 		user_watchlist[0].save()
 		
+		product_list = []
+
+		for product in user_watchlist[0].product.all():
+			product_list.append(product)
+
 
 	return render(request, 'auctions/watchlist.html', {
 		"title": "My Watchlist",
-		"wl": user_watchlist[0].product.all()
+		"watchlist": product_list
 	})
 
 def remove_watchlist(request):
@@ -252,10 +260,11 @@ def remove_watchlist(request):
 		})
 
 
-def my_watchlist(request, username):
+def my_watchlist(request):
 	title = "My Watchlist"
 
-	user = User.objects.get(username = username)
+	user = User.objects.get(username = "icarus")
+	print(global_username)
 	user_watchlist = Watchlist.objects.get(user = user)
 
 	products_list = []
