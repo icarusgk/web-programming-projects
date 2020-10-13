@@ -261,7 +261,6 @@ def remove_watchlist(request):
 
 
 def my_watchlist(request):
-	title = "My Watchlist"
 
 	user = User.objects.get(username = "icarus")
 	print(global_username)
@@ -273,7 +272,6 @@ def my_watchlist(request):
 
 		
 	return render(request, 'auctions/watchlist.html', {
-		"title": title,
 		"watchlist": products_list
 	}) 
 
