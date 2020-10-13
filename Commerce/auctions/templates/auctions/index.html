@@ -6,7 +6,7 @@
         <div class="i-item">
             <a href="product/{{product.0}}">  
             <div class="i-image-container">
-                <img src="{{product.2}}" id="i-image"> <br>
+                <img src="{{product.2}}" id="i-image"> <br>  
             </div>
 
             <div class="i-product-details">
@@ -14,9 +14,9 @@
                 <p id="i-description">{{ product.1 }}</p> 
                 <p id="i-price">${{ product.3 }}</p>
                 {% if product.4 == True %}
-                    <p style="color: green;">Active</p>
+                    <p style="color: lightgreen;">Active</p>
                 {% else %}
-                    <p style="color: red;">Closed</p>
+                    <p style="color: lightsalmon;">Closed</p>
                 {% endif %}
             </div>     
             </a>    
