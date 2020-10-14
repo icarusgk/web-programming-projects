@@ -53,7 +53,7 @@ def content(request, name):
 		description = product.description
 		bid_user = product.user
 		date = product.datetime
-		categories = product.category.values()
+		categories = product.category.all()
 		bid = Bid.objects.get(listing = product)
 		last_bid_user = bid.user
 		current_bids = bid.amount
@@ -65,6 +65,7 @@ def content(request, name):
 		comment_user = []
 		comment_content = []
 		watchlist_products = []
+		categories_list = []
 
 		for comment in comments_all:
 			comment_user.append(comment.user)
@@ -74,6 +75,9 @@ def content(request, name):
 
 		for product in user_watchlist.product.all():
 			watchlist_products.append(product.product_name)
+
+		for category in categories:
+			categories_list.append(category.name)
 		
 		return render(request, 'auctions/content.html', {
 			"name": name,
@@ -81,7 +85,7 @@ def content(request, name):
 			"image": image,
 			"bid_user": bid_user,
 			"date": date,
-			"categories": categories,
+			"categories": categories_list,
 			"start_bid": bid.start_bid,
 			"final_bid": bid.final_bid,
 			"last_bid_user": last_bid_user,
@@ -217,7 +221,8 @@ def category(request, name):
 	# return content(request, listing)
 
 	return render(request, 'auctions/category.html', {
-		"names": product_names
+		"names": product_names,
+		"title": name
 	})
 
 def add_watchlist(request):
