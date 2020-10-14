@@ -11,6 +11,10 @@
             <p id="p-description">{{ description }}</p>
             <p id="p-user">Uploaded by: {{ bid_user }}</p> 
             <p id="p-date">On: {{date}}</p>
+            <p>Categories:</p>
+            {% for category in categories %}
+                 <a href="../category/{{category}}"> {{category}}</a> 
+            {% endfor %}  
             <p id="p-initial-bid">Initial Bid was: $ {{ start_bid }}</p>
             
             {% if user.is_authenticated %}
@@ -18,6 +22,12 @@
                 {% csrf_token %}
                 {% if bid_user == user  %}
                     You are the lister.
+                    <form action="{% url 'remove-watchlist' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ name }}">
+                        <input type="hidden" name="user_name" value="{{ user.username }}">
+                        <input type="submit" value="Remove item to watchlist" style="color: white; background: red;">
+                    </form>
                 {% elif bid_user != user and is_active == True %}
                     <p>Submit a new bid:</p>
                         {{ new_bid.new_bid }}
@@ -26,14 +36,7 @@
                         <input type="submit" value="Place bid" id="submit-bid">
                 </form>
                 
-                {% if name in watchlist %}
-                    <form action="{% url 'remove-watchlist' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="product" value="{{ name }}">
-                        <input type="hidden" name="user_name" value="{{ user.username }}">
-                        <input type="submit" value="Remove item to watchlist" style="color: white; background: red;">
-                    </form>
-                {% else %}
+                {% if name not in watchlist %}
                     <form action="{% url 'add-watchlist' %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="product" value="{{ name }}">
