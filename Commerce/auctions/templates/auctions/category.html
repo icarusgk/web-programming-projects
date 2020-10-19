@@ -1,8 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>{{title}}</h2>
+    <h2>{{ title }}</h2>
+    <h6>{{ active }}</h6>
     {% for name in names %}
+        <a href="../product/{{ name }}">{{name}}</a> <br>
+    {% endfor %}
+    
+    <h6>{{ inactive }}</h6>
+    {% for name in inactive_names %}
         <a href="../product/{{ name }}">{{name}}</a> <br>
     {% endfor %}
 {% endblock %}
