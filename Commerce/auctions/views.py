@@ -58,7 +58,7 @@ def content(request, name):
 		last_bid_user = bid.user
 		current_bids = bid.amount
 		is_active = product.is_active
-		current_user = User.objects.get(username = "icarus")	
+		current_user = User.objects.get(username = "nicolle")	
 		user_watchlist = Watchlist.objects.get(user = current_user)
 		comments_all = Comment.objects.filter(product = product)
 
@@ -161,7 +161,9 @@ def bid(request):
 				new_bid.save()
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 			else:
-				return HttpResponse("Enter a valid amount")
+				return render(request, 'auctions/valid_amount.html', {
+					"message": "Enter a valid amount"
+				})
 			
 
 def comment(request):
@@ -191,7 +193,6 @@ def comment(request):
 def remove(request):
 	if request.method == "POST":
 		product = request.POST["remove_button"]
-
 		item = Listing.objects.get(product_name = product)
 
 		item.is_active = False
@@ -214,15 +215,19 @@ def category(request, name):
 	
 	category_name = Category.objects.get(name = name)
 	product_names = []
+	closed_product_names = []
 	for product in category_name.listing_set.all():
 		if product.is_active == True:
 			product_names.append(product.product_name)
-
-	# return content(request, listing)
+		else:
+			closed_product_names.append(product.product_name)
 
 	return render(request, 'auctions/category.html', {
 		"names": product_names,
-		"title": name
+		"inactive_names": closed_product_names,
+		"title": name,
+		"active": "Active Listings",
+		"inactive": "Inactive Listings"
 	})
 
 def add_watchlist(request):
@@ -267,7 +272,7 @@ def remove_watchlist(request):
 
 def my_watchlist(request):
 
-	user = User.objects.get(username = "icarus")
+	user = User.objects.get(username = "nicolle")
 	print(global_username)
 	user_watchlist = Watchlist.objects.get(user = user)
 
@@ -277,7 +282,8 @@ def my_watchlist(request):
 
 		
 	return render(request, 'auctions/watchlist.html', {
-		"watchlist": products_list
+		"watchlist": products_list,
+		"active": "Active Listings"
 	}) 
 
 def login_view(request):
