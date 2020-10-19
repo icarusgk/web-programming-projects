@@ -2,50 +2,52 @@
 
 {% block body %}
     {% if name %}
-    <p id="p-title">{{name}}</p>  
+    <p id="p-title">{{ name }}</p>  
     <div id="p-container"> 
         
-        <img src="{{image}}" id="p-image">
+        <img src="{{ image }}" id="p-image">
         <div id="details">
             <p id="p-final-bid">$ {{ final_bid }}</p>
             <p id="p-description">{{ description }}</p>
             <p id="p-user">Uploaded by: {{ bid_user }}</p> 
             <p id="p-date">On: {{date}}</p>
+
             <p>Categories:</p>
             {% for category in categories %}
                  <a href="../category/{{category}}"> {{category}}</a> 
             {% endfor %}  
+
             <p id="p-initial-bid">Initial Bid was: $ {{ start_bid }}</p>
-            
+
             {% if user.is_authenticated %}
-            <form action="{% url 'bid' %}" method="POST">
-                {% csrf_token %}
-                {% if bid_user == user  %}
-                    You are the lister.
-                    <form action="{% url 'remove-watchlist' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="product" value="{{ name }}">
-                        <input type="hidden" name="user_name" value="{{ user.username }}">
-                        <input type="submit" value="Remove item to watchlist" style="color: white; background: red;">
-                    </form>
-                {% elif bid_user != user and is_active == True %}
-                    <p>Submit a new bid:</p>
+                <form action="{% url 'bid' %}" method="POST">
+                    {% csrf_token %}
+                    {% if bid_user == user  %}
+                        You are the lister.
+                    {% elif bid_user != user and is_active == True %}
+                        <p> Submit a new bid: </p>
                         {{ new_bid.new_bid }}
                         <input type="hidden" name="page_name" value="{{ name }}">
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <input type="submit" value="Place bid" id="submit-bid">
+                    {% endif %}
                 </form>
                 
-                {% if name not in watchlist %}
+                {% if name not in watchlist and user != bid_user and is_active == True %}
                     <form action="{% url 'add-watchlist' %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="product" value="{{ name }}">
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <input type="submit" value="Add item to watchlist">
                     </form>
+                {% elif name in watchlist and user != bid_user and is_active == True %}
+                    <form action="{% url 'remove-watchlist' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ name }}">
+                        <input type="hidden" name="user_name" value="{{ user.username }}">
+                        <input type="submit" value="Remove item from watchlist" style="background: red; color: white;">
+                    </form>
                 {% endif %}
-                
-            {% endif %}
             
             {% else %}
             <p>To place a bid please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></p>
@@ -63,7 +65,7 @@
                     <p id="p-current-bids">There was {{ current_bids }} bid for this product</p>
                     <p>The last bid was made by: {{ last_bid_user }}</p>
                 {% elif current_bids > 1 and is_active == False %}
-                    <p id="p-current-bids">There were {{ current_bids }} bid for this product</p>
+                    <p id="p-current-bids">There were {{ current_bids }} bids for this product</p>
                     <p>The last bid was made by: {{ last_bid_user }}</p>
                 {% endif %}    
 
@@ -87,7 +89,6 @@
                 <p>The auction was closed.</p>
                 <p style="color: green;">{{ last_bid_user }} was the winner.</p>
             {% endif %}
-
         </div>
     </div>
     <hr>
