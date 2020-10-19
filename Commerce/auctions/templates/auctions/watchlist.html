@@ -2,7 +2,6 @@
 
 {% block body %}
     <h2>My Watchlist</h2>
-
     {% if product %}
         {{ product }} has been removed from your watchlist.
     {% endif %}
@@ -11,6 +10,9 @@
         <a href="../product/{{product.product_name}}">
             {{product.product_name}}
         </a> 
+        {% if product.is_active == False %}
+            - This auction is closed
+        {% endif %}
         -
         {{product.description}} <br>
     {% endfor %}
