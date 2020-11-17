@@ -14,7 +14,6 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
 # Listing 
 
 class Listing(models.Model):
@@ -23,7 +22,7 @@ class Listing(models.Model):
     datetime = models.DateField(default = dt.datetime.now)
     image_url = models.URLField()  
     is_active = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category)
     
     def __str__(self):
@@ -35,7 +34,7 @@ class Bid(models.Model):
     start_bid = models.FloatField()
     final_bid = models.FloatField()
     amount = models.IntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
         return f"{self.listing.product_name} - ({self.user}) Initial: {self.start_bid} / Final: {self.final_bid}"
