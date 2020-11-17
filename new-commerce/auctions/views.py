@@ -5,10 +5,31 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Listing, Bid, Watchlist, Comment
-from .forms import CommentForm, BidForm
+from .forms import CommentForm, BidForm, ListingForm
 
 def index(request):
-    return render(request, "auctions/index.html")
+
+    listing = list(Listing.objects.all())
+
+    product_names = []
+    images = []
+    descriptions = []
+    price = []
+    is_active = []
+
+    for i in listing:
+        product_names.append(i.product_name)
+        descriptions.append(i.description)
+        images.append(i.image_url)
+        product_price = Bid.objects.get(listing = i.id)
+        price.append(product_price.final_bid)
+        is_active.append(i.is_active)
+
+    products = list(zip(product_names, descriptions, images, price, is_active))
+
+    return render(request, "auctions/index.html", {
+        "products": products
+    })
 
 def product(request, name):
     listing = list(Listing.objects.all())
