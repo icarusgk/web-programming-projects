@@ -2,8 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 import datetime as dt
 
+# Users
 class User(AbstractUser):
     pass
+
+# Category
 
 class Category(models.Model):
     name = models.CharField(max_length = 50)
