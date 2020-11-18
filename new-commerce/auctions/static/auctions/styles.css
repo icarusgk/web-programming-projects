@@ -1,3 +1,7 @@
-body {
-    padding: 10px;
+.page-body {
+    margin-top: 20px;
+}
+
+h2 {
+    font-family: 'MarketSans-SemiBold-WebS';
 }
