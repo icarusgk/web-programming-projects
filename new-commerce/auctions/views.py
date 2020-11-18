@@ -24,16 +24,40 @@ def index(request):
         product_names.append(i.product_name)
         descriptions.append(i.description)
         images.append(i.image_url)
-        product_price = Bid.objects.get(listing=i.id)
+        product_price = Bid.objects.get(listing = i.id)
         price.append(product_price.final_bid)
         is_active.append(i.is_active)
 
     products = list(zip(product_names, descriptions, images, price, is_active))
-
+    
+    
     return render(request, "auctions/index.html", {
         "products": products
     })
 
+def active_listings(request):
+
+    listing = list(Listing.objects.all())
+
+    product_names = []
+    images = []
+    descriptions = []
+    price = []
+
+    for i in listing:
+        if i.is_active is True:
+            product_names.append(i.product_name)
+            descriptions.append(i.description)
+            images.append(i.image_url)
+            product_price = Bid.objects.get(listing = i.id)
+            price.append(product_price.final_bid)
+        
+
+    products = list(zip(product_names, descriptions, images, price))
+    
+    return render(request, "auctions/active.html", {
+        "products": products
+    })
 
 def product(request, name):
     listing = list(Listing.objects.all())
@@ -57,7 +81,7 @@ def product(request, name):
         last_bid_user = bid.user
         current_bids = bid.amount
         is_active = product.is_active
-        current_user = User.objects.get(username="icarus")
+        current_user = User.objects.get(username= "icarus" )
         user_watchlist = Watchlist.objects.get(user=current_user)
         comments_all = Comment.objects.filter(product=product)
 
@@ -97,8 +121,8 @@ def product(request, name):
 
 
 @login_required
-def forms(request):
-    return render(request, "auctions/forms.html", {
+def new_item(request):
+    return render(request, "auctions/new_item.html", {
         "form": ListingForm()
     })
 
