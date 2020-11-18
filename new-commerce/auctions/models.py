@@ -26,7 +26,7 @@ class Listing(models.Model):
     category = models.ManyToManyField(Category)
     
     def __str__(self):
-        return f"{self.product_name} - ({self.user}) on {self.datetime}"
+        return f"{self.product_name} - uploaded by: '{self.creator}' on {self.datetime}"
 
 # Bids 
 class Bid(models.Model):
@@ -54,3 +54,6 @@ class Comment(models.Model):
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     product = models.ManyToManyField(Listing)
+
+    def __str__(self):
+        return f"{self.user}'s Watchlist"
