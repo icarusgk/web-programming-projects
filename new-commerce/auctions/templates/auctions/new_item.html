@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h1 id="new-title">Add a new item</h1>
+    <form action="{% url 'input' %}" method="POST">
+    {% csrf_token %}
+        <div>
+            <p class="form-tags">{{ form.title.label_tag }}</p>
+            {{ form.title }}
+            <p class="form-tags">{{ form.description.label_tag }}</p>
+            {{ form.description }}
+            <p class="form-tags"> {{ form.image_url.label_tag }}</p>
+            {{ form.image_url}}
+            <p class="form-tags"> {{ form.bid.label_tag }}</p>
+            {{ form.bid }}
+            <div style="float: right;">
+                <p class="form-tags"> {{ form.category.label_tag }}</p>
+                {{ form.category }}
+            </div>
+            <input type="hidden" name="user_name" value="{{ user.username }}">
+            <input type="submit" class="btn btn-dark" value="Submit">
+        </div>
+    </form>
+{% endblock %}
