@@ -82,8 +82,6 @@ def product(request, name):
         last_bid_user = bid.user
         current_bids = bid.amount
         is_active = product.is_active
-        current_user = User.objects.get(username= "icarus")
-        user_watchlist = Watchlist.objects.get(user = current_user)
         comments_all = Comment.objects.filter(product = product)
 
         comment_user = []
@@ -113,8 +111,6 @@ def product(request, name):
             "comment": CommentForm(),
             "comments": comments,
             "is_active": is_active,
-            "watchlist": user_watchlist,
-            "user": current_user,
             "new_bid": BidForm(initial={'new_bid': bid.final_bid})
         })
     else:
