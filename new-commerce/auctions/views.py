@@ -83,8 +83,6 @@ def product(request, name):
         last_bid_user = bid.user
         current_bids = bid.amount
         is_active = product.is_active
-        current_user = User.objects.get(username= "icarus")
-        user_watchlist = Watchlist.objects.get(user = current_user)
         comments_all = Comment.objects.filter(product = product)
 
         comment_user = []
