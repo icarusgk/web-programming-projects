@@ -20,6 +20,7 @@ class Listing(models.Model):
     product_name = models.CharField(max_length = 256)
     description = models.CharField(max_length = 256)
     datetime = models.DateField(default = dt.datetime.now)
+    starting_price = models.FloatField(default = 0)
     image_url = models.URLField()  
     is_active = models.BooleanField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -31,9 +32,7 @@ class Listing(models.Model):
 # Bids 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
-    start_bid = models.FloatField()
-    final_bid = models.FloatField()
-    amount = models.IntegerField(default=0)
+    bid = models.FloatField()
     user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
