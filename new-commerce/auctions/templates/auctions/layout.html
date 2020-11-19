@@ -30,23 +30,43 @@
             </li>
             <li class="nav-item dropdown active">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Listings
+                Categories
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Active Listings</a>
-                <a class="dropdown-item" href="#">Inactive Listings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                {% for category in global_categories %}
+                  <a class="dropdown-item" href="/category/{{ category }}">{{ category }}</a>
+                {% endfor %}
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="#">My Watchlist</a>
+              <form action="{% url 'my-watchlist' %}" method="POST" class="nav-link active">
+                {% csrf_token %}
+                <input type="hidden" name="user_name" value="{{ user }}">
+                
+                <div class="nav-item">
+                  <input type="submit" value="My Watchlist">
+                </div>
+              </form>
             </li>
+            <li></li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+            {% if user.is_authenticated %}
+              <form class="form-inline">
+                <button class="btn btn-outline-success" type="button">Logged in as {{ user }}</button>
+                <a href="{% url 'logout' %}">
+                  <button class="btn btn btn-outline-secondary" type="button">Log out</button>
+                </a>                
+              </form>
+            {% else %}
+              <form class="form-inline">
+                <a href="{% url 'register' %}">
+                  <button class="btn btn-outline-success" type="button">Register</button>
+                </a>
+                <a href="{% url 'login' %}">
+                  <button class="btn btn btn-outline-secondary" type="button">Log In</button>
+                </a>
+              </form>
+            {% endif %}
         </div>
       </nav>
       {% block body %}
