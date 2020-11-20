@@ -1,24 +1,52 @@
-{% extends "auctions/layout.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Signin Template · Bootstrap</title>
 
-{% block body %}
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
 
-    <h2>Login</h2>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Login">
-    </form>
-
-    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
-{% endblock %}
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'auctions/signin.css' %}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <form class="form-signin" action="{% url 'login' %}" method="POST" >
+    {% csrf_token %}
+      <img class="mb-4" src="https://www.flaticon.com/svg/static/icons/svg/248/248928.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Please Log In</h1>
+      <label class="sr-only">Username</label>
+      <input class="form-control" placeholder="Username" name="username" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="password" class="form-control" placeholder="Password" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+      <p style="padding-top: 30px;">Don't have an account yet? <a href="{% url 'register' %}">Register!</a></p>
+      <a href="{% url 'index' %}">Back to main page</a>
+      <p class="mt-5 mb-3 text-muted">&copy; 2020-2021</p>
+      
+</form>
+</body>
+</html>
