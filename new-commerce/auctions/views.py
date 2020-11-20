@@ -61,7 +61,6 @@ def active_listings(request):
 
 def product(request, name):
     listing = list(Listing.objects.all())
-
     product_names = []
     category = []
 
@@ -78,24 +77,27 @@ def product(request, name):
         creator = product.creator
         date = product.datetime
         categories = product.category.all()
-        bid = Bid.objects.filter(listing = product)
+        all_bids = Bid.objects.filter(listing = product)
         last_bid_user = None
-        
-        if bid.last() is None:
+
+        if all_bids.last() is None:
             product.last_price = product.starting_price
             product.save()
         else:
-            last_bid_user = bid.last().user
-            product.last_price = bid.last().bid
+            last_bid_user = all_bids.last().user
+            product.last_price = all_bids.last().bid
             product.save()       
 
         current_bids = len(product.bid_set.all())
         is_active = product.is_active
-        user_watchlist = Watchlist.objects.get(user = User.objects.get(username = "icarus"))
-        comments_all = Comment.objects.filter(product = product)
+        user_watchlist = Watchlist.objects.get(user = request.user)
 
+
+        comments_all = Comment.objects.filter(product = product)
         comment_user = []
         comment_content = []
+
+
         categories_list = []
 
         watchlist_list = []
