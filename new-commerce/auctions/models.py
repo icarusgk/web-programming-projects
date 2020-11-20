@@ -21,6 +21,7 @@ class Listing(models.Model):
     description = models.CharField(max_length = 256)
     datetime = models.DateField(default = dt.datetime.now)
     starting_price = models.FloatField(default = 0)
+    last_price = models.FloatField(default = 0)
     image_url = models.URLField()  
     is_active = models.BooleanField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -36,7 +37,7 @@ class Bid(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
-        return f"{self.listing.product_name} - ({self.user}) Initial: {self.start_bid} / Final: {self.final_bid}"
+        return f"{self.listing.product_name} - ({self.user}) bidded: {self.bid}"
 
 # Comments
 
