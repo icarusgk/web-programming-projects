@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import datetime as dt
@@ -10,7 +10,7 @@ from .models import User, Listing, Bid, Watchlist, Comment, Category
 from .forms import CommentForm, BidForm, ListingForm
 
 def index(request):
-
+    
     listing = list(Listing.objects.all())
 
     product_names = []
@@ -27,14 +27,13 @@ def index(request):
         is_active.append(i.is_active)
 
     products = list(zip(product_names, descriptions, images, price, is_active))
-    
-    
+
     return render(request, "auctions/index.html", {
         "products": products
     })
 
-def active_listings(request):
 
+def active_listings(request):
     listing = list(Listing.objects.all())
 
     product_names = []
@@ -47,17 +46,14 @@ def active_listings(request):
             product_names.append(i.product_name)
             descriptions.append(i.description)
             images.append(i.image_url)
-            product_price = Bid.objects.get(listing = i.id)
-            price.append(product_price.final_bid)
-        
+            price.append(i.last_price)
 
     products = list(zip(product_names, descriptions, images, price))
-    
+
     return render(request, "auctions/active.html", {
         "products": products
     })
 
-    
 
 def product(request, name):
     listing = list(Listing.objects.all())
@@ -86,21 +82,27 @@ def product(request, name):
         else:
             last_bid_user = all_bids.last().user
             product.last_price = all_bids.last().bid
-            product.save()       
+            product.save()
 
         current_bids = len(product.bid_set.all())
         is_active = product.is_active
-        user_watchlist = Watchlist.objects.get(user = request.user)
 
+        watchlist_list = []
+
+        if request.user.is_authenticated is True:
+            user_watchlist = Watchlist.objects.get(user = request.user)
+
+            for element in user_watchlist.product.all():
+                watchlist_list.append(element.product_name)
+        
 
         comments_all = Comment.objects.filter(product = product)
         comment_user = []
         comment_content = []
 
-
         categories_list = []
 
-        watchlist_list = []
+        
 
         for comment in comments_all:
             comment_user.append(comment.user)
@@ -111,8 +113,7 @@ def product(request, name):
         for category in categories:
             categories_list.append(category.name)
 
-        for element in user_watchlist.product.all():
-            watchlist_list.append(element.product_name)
+        
 
         return render(request, 'auctions/product.html', {
             "name": name,
@@ -133,7 +134,7 @@ def product(request, name):
         })
     else:
         return render(request, 'auctions/product.html', {
-            "error": f"This page '{name}' doesn't exist."
+            "error": f"This page '{name}' does not exist."
         })
 
 
@@ -146,7 +147,6 @@ def new_item(request):
 
 @login_required
 def input(request):
-
     if request.method == "POST":
         form = ListingForm(request.POST)
         listing = request.POST['title']
@@ -159,22 +159,22 @@ def input(request):
             initial_price = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
-            user = User.objects.get(username = user_name)
+            user = User.objects.get(username=user_name)
 
             new_listing = Listing(
-                product_name = title,
-                description = description,
-                datetime = dt.datetime.now(),
-                starting_price = initial_price,
-                last_price = initial_price,
-                image_url = image_url,
-                is_active = True,
-                creator = user)
+                product_name=title,
+                description=description,
+                datetime=dt.datetime.now(),
+                starting_price=initial_price,
+                last_price=initial_price,
+                image_url=image_url,
+                is_active=True,
+                creator=user)
 
             new_listing.save()
 
             for i in categories:
-                category = Category.objects.get(id = i)
+                category = Category.objects.get(id=i)
                 new_listing.category.add(category)
 
             return product(request, listing)
@@ -188,16 +188,15 @@ def bid(request):
 
         if form.is_valid():
             bid_amount = form.cleaned_data['new_bid']
-            current_listing = Listing.objects.get(product_name = product)
-            bid_user = User.objects.get(username = user_name)
+            current_listing = Listing.objects.get(product_name=product)
+            bid_user = User.objects.get(username=user_name)
 
-            current_bid = Bid.objects.filter(listing = current_listing)
+            current_bid = Bid.objects.filter(listing=current_listing)
 
             if bid_amount > current_listing.last_price:
-                new_bid = Bid(listing = current_listing, bid = bid_amount, user = bid_user)
+                new_bid = Bid(listing=current_listing, bid=bid_amount, user=bid_user)
                 new_bid.save()
 
-                
                 current_listing.last_price = current_listing.bid_set.last().bid
                 current_listing.save()
 
@@ -236,7 +235,7 @@ def comment(request):
 def remove(request):
     if request.method == "POST":
         product = request.POST["remove_button"]
-        item = Listing.objects.get(product_name=product)
+        item = Listing.objects.get(product_name = product)
 
         item.is_active = False
         item.save()
@@ -255,12 +254,11 @@ def categories(request):
 
 
 def category(request, name):
-
     category_name = Category.objects.get(name=name)
     product_names = []
     closed_product_names = []
     for product in category_name.listing_set.all():
-        if product.is_active == True:
+        if product.is_active is True:
             product_names.append(product.product_name)
         else:
             closed_product_names.append(product.product_name)
@@ -291,10 +289,10 @@ def add_watchlist(request):
         for product in user_watchlist[0].product.all():
             product_list.append(product)
 
-    return render(request, 'auctions/watchlist.html', {
-        "title": "My Watchlist",
-        "watchlist": product_list
-    })
+        return render(request, 'auctions/watchlist.html', {
+            "title": "My Watchlist",
+            "watchlist": product_list
+        })
 
 
 def remove_watchlist(request):
@@ -318,22 +316,18 @@ def my_watchlist(request):
     if request.method == "POST":
         user_name = request.POST["user_name"]
 
-        if user_name:
-            user = User.objects.get(username = user_name)
-            user_watchlist = Watchlist.objects.get(user = user)
+        user = User.objects.get(username=user_name)
+        user_watchlist = Watchlist.objects.get(user=user)
 
-            products_list = []
-            for product in user_watchlist.product.all():
-                products_list.append(product)
+        products_list = []
+        for product in user_watchlist.product.all():
+            products_list.append(product)
 
-            return render(request, 'auctions/watchlist.html', {
-                "watchlist": products_list,
-                "active": "Active Listings"
-            })
-        else:
-            return render(request, 'auctions/watchlist.html', {
-                'message': "Please Login"
-            })
+        return render(request, 'auctions/watchlist.html', {
+            "watchlist": products_list,
+            "active": "Active Listings"
+        })
+
 
 
 def login_view(request):
@@ -342,7 +336,7 @@ def login_view(request):
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username = username, password = password)
+        user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
         if user is not None:
@@ -378,7 +372,7 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
 
-            new_watchlist = Watchlist(user = user)
+            new_watchlist = Watchlist(user=user)
             new_watchlist.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
