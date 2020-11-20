@@ -14,12 +14,18 @@
                 <div class="text-center">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.0 }}</h5>
+                    <hr>
                     <p class="card-text">{{ product.1 }}</p>
                     <p class="card-text" style="color: green;">Price: $ {{ product.3 }}</p>
                     {% if product.4 is True %}
-                        <p class="card-text" style="color: lightgreen;">Active</p>
+                        <div class="card-footer">
+                            <p class="card-text" style="color: lightgreen;">Active</p>
+                        </div>
+                        
                     {% else %}
-                        <p class="card-text" style="color: lightsalmon;">Closed</p>
+                        <div class="card-footer">
+                            <p class="card-text" style="color: lightsalmon;">Closed</p>
+                        </div>
                     {% endif %}
                 </div>
                 </div>
