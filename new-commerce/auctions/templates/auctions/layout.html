@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" style="font-family: 'MarketSans-SemiBold-WebS';" href="{% url 'index' %}">
+        <a class="navbar-brand" style="font-family: 'Source Sans Pro';" href="{% url 'index' %}">
             <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Flat_tick_icon.svg" width="30" height="30" alt="" loading="lazy">
             SnapShop
         </a>        
@@ -23,8 +23,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}"> All Listings <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'index' %}">All Listings </a>
             </li>
+            
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'new-item' %}">Add Item</a>
             </li>
@@ -38,17 +39,24 @@
                 {% endfor %}
               </div>
             </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'active-listings' %}"> Active Listings <span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item">
               <form action="{% url 'my-watchlist' %}" method="POST" class="nav-link active">
                 {% csrf_token %}
                 <input type="hidden" name="user_name" value="{{ user }}">
                 
                 <div class="nav-item">
-                  <input type="submit" value="My Watchlist">
+                  <input type="submit" style="border: none; background: none; color: white" value="My Watchlist">
                 </div>
               </form>
             </li>
-            <li></li>
+
+            
+            {% endif %}
+            
           </ul>
             {% if user.is_authenticated %}
               <form class="form-inline">
