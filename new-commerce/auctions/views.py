@@ -23,8 +23,7 @@ def index(request):
         product_names.append(i.product_name)
         descriptions.append(i.description)
         images.append(i.image_url)
-        product_price = Bid.objects.get(listing = i.id)
-        price.append(product_price.final_bid)
+        price.append(i.last_price)
         is_active.append(i.is_active)
 
     products = list(zip(product_names, descriptions, images, price, is_active))
@@ -79,10 +78,20 @@ def product(request, name):
         creator = product.creator
         date = product.datetime
         categories = product.category.all()
-        bid = Bid.objects.get(listing = product)
-        last_bid_user = bid.user
-        current_bids = bid.amount
+        bid = Bid.objects.filter(listing = product)
+        last_bid_user = None
+        
+        if bid.last() is None:
+            product.last_price = product.starting_price
+            product.save()
+        else:
+            last_bid_user = bid.last().user
+            product.last_price = bid.last().bid
+            product.save()       
+
+        current_bids = len(product.bid_set.all())
         is_active = product.is_active
+        user_watchlist = Watchlist.objects.get(user = User.objects.get(username = "icarus"))
         comments_all = Comment.objects.filter(product = product)
 
         comment_user = []
@@ -110,15 +119,15 @@ def product(request, name):
             "creator": creator,
             "date": date,
             "categories": categories_list,
-            "start_bid": bid.start_bid,
-            "final_bid": bid.final_bid,
+            "start_bid": product.starting_price,
+            "final_bid": product.last_price,
             "last_bid_user": last_bid_user,
             "current_bids": current_bids,
             "comment": CommentForm(),
             "comments": comments,
             "is_active": is_active,
             "watchlist": watchlist_list,
-            "new_bid": BidForm(initial={'new_bid': bid.final_bid})
+            "new_bid": BidForm(initial={'new_bid': product.last_price})
         })
     else:
         return render(request, 'auctions/product.html', {
@@ -145,32 +154,26 @@ def input(request):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             image_url = form.cleaned_data['image_url']
-            bid = form.cleaned_data['bid']
+            initial_price = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
             user = User.objects.get(username = user_name)
 
-            new = Listing(
+            new_listing = Listing(
                 product_name = title,
                 description = description,
                 datetime = dt.datetime.now(),
+                starting_price = initial_price,
+                last_price = initial_price,
                 image_url = image_url,
                 is_active = True,
                 creator = user)
 
-            new.save()
+            new_listing.save()
 
             for i in categories:
-                category = Category.objects.get(id=i)
-                new.category.add(category)
-
-            new_bid = Bid(
-                user = user, 
-                listing = new, 
-                start_bid = bid, 
-                final_bid = bid)
-
-            new_bid.save()
+                category = Category.objects.get(id = i)
+                new_listing.category.add(category)
 
             return product(request, listing)
 
@@ -182,17 +185,20 @@ def bid(request):
         user_name = request.POST["user_name"]
 
         if form.is_valid():
-            bid = form.cleaned_data['new_bid']
-            current_listing = Listing.objects.get(product_name=product)
-            user = User.objects.get(username=user_name)
+            bid_amount = form.cleaned_data['new_bid']
+            current_listing = Listing.objects.get(product_name = product)
+            bid_user = User.objects.get(username = user_name)
 
-            new_bid = Bid.objects.get(listing=current_listing)
+            current_bid = Bid.objects.filter(listing = current_listing)
 
-            if bid > new_bid.final_bid:
-                new_bid.amount += 1
-                new_bid.final_bid = bid
-                new_bid.user = user
+            if bid_amount > current_listing.last_price:
+                new_bid = Bid(listing = current_listing, bid = bid_amount, user = bid_user)
                 new_bid.save()
+
+                
+                current_listing.last_price = current_listing.bid_set.last().bid
+                current_listing.save()
+
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 return render(request, 'auctions/valid_amount.html', {
@@ -365,11 +371,13 @@ def register(request):
             return render(request, "auctions/register.html", {
                 "message": "Passwords must match."
             })
-
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+
+            new_watchlist = Watchlist(user = user)
+            new_watchlist.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
