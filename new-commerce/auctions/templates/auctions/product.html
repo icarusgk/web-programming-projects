@@ -3,7 +3,7 @@
 {% block body %}
     {% if name %}
     <div class="position-top">
-    <p style="font-size: 40pt; font-family: 'MarketSans-SemiBold-WebS';">{{ name }}</p>  
+    <p style="font-size: 40pt; font-family: 'Source Sans Pro'; font-weight: bolder">{{ name }}</p>
     <div id="product-img">         
         <img src="{{ image }}" style="width: 300px; border-radius: 10px;" class=" border rounded-lg">
     </div>
@@ -87,7 +87,9 @@
             {% elif creator == user and is_active == False %}
                 <p>You closed the auction</p>
                 <p style="color: green;">{{ last_bid_user }} was the winner.</p>
-
+            {% elif user == last_bid_user and is_active == False %}
+                <p>The auction was closed.</p>
+                <p style="color: #008000;">You won the auction</p>
             {% elif creator != user and is_active == False %}
                 <p>The auction was closed.</p>
                 <p style="color: green;">{{ last_bid_user }} was the winner.</p>
