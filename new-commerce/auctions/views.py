@@ -256,19 +256,16 @@ def categories(request):
 def category(request, name):
     category_name = Category.objects.get(name=name)
     product_names = []
-    closed_product_names = []
+
     for product in category_name.listing_set.all():
         if product.is_active is True:
             product_names.append(product.product_name)
-        else:
-            closed_product_names.append(product.product_name)
+    
 
     return render(request, 'auctions/category.html', {
         "names": product_names,
-        "inactive_names": closed_product_names,
         "title": name,
         "active": "Active Listings",
-        "inactive": "Inactive Listings"
     })
 
 
