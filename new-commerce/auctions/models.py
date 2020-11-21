@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-import datetime as dt
-
+from django.utils import timezone
 
 # Users
 class User(AbstractUser):
@@ -22,7 +21,7 @@ class Category(models.Model):
 class Listing(models.Model):
     product_name = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
-    datetime = models.DateField(default=dt.datetime.now)
+    datetime = models.DateTimeField(default = timezone.now)
     starting_price = models.FloatField(default=0)
     last_price = models.FloatField(default=0)
     image_url = models.URLField()
