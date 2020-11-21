@@ -40,7 +40,7 @@ class Bid(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.listing.product_name} - ({self.user}) bidded: {self.bid}"
+        return f"({self.user}) bidded: {self.bid} on {self.listing.product_name}"
 
 
 # Comments
