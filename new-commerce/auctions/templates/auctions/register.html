@@ -2,29 +2,68 @@
 
 {% block body %}
 
-    <h2>Register</h2>
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+<div class="grid-container">
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-    <div class="text-center">
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+    <div class="grid-item" id="register-title">
+
+        <div id="register-title-container">
+            <h2 id="register-title-text">Register</h2>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
+
+        <div id="sign-up-form">
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <!-- username input -->
+                <div class="form-group" id="form-username-input">
+                    <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input autofocus type="text" name="username" class="form-control" id="inlineFormInputGroup" placeholder="Username" >
+                    </div>
+                </div>
+                <!-- email input -->
+                <div class="form-group">
+                    <label for="exampleInputEmail1">E-mail address</label>
+                    <input id="form-email-input" type="email" name="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+
+                <!-- password -->
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4">Password</label>
+                        <input type="password" name="password" class="form-control" id="inputPassword4">
+                        <small id="emailHelp" class="form-text text-muted">Must be 8-20 characters long.</small>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputPassword4"> Confirm Password</label>
+                        <input type="password" name="confirmation" class="form-control" id="inputPassword4">
+                    </div>
+
+                </div>
+
+                <small>Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Log In here.</a> <br></small>
+
+                <!-- Register Submit -->
+                <button id="form-register-submit" type="submit" class="btn btn-info" value="Register">Register</button>
+            </form>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Register">
-    </form>
+
     </div>
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+
+    <img id="register-image"
+        src="https://raw.githubusercontent.com/icarusgk/web-programming-projects/b1050343e0517d60542eaa9e56faa1d75563a42b/new-commerce/auctions/resources/register-image.svg"
+        alt="Register Image">
+
+</div>
+
 
 {% endblock %}
