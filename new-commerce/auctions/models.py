@@ -49,6 +49,7 @@ class Comment(models.Model):
     body = models.CharField(max_length=256)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    time = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
         return f"{self.user} commented on product ({self.product})"
