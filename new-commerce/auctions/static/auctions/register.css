@@ -1,0 +1,51 @@
+* {
+    font-family: 'Source Sans Pro';
+}
+
+/* Basic Layout */
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 200px;
+	grid-template-columns: repeat(2, 1fr);	
+}
+
+#register-image {
+    width: 500px;
+    margin-top: 60px;
+    margin-left: 80px;
+}
+
+/* Register Title */
+
+#register-title-container {
+    text-align: left;
+    padding-top: 30px;
+    padding-left: 60px;
+}
+
+#register-title-text {
+    font-family: 'Source Sans Pro';
+    font-weight: bolder;
+    font-size: 50pt;
+}
+
+/* Register Form */
+
+
+#sign-up-form{
+    margin-top: 40px;
+    margin-left: 60px;
+}
+
+#form-username-input {
+    width: 200px;
+}
+
+#form-email-input {
+    width: 250px;
+}
+
+#form-register-submit {
+    margin-top: 20px;
+}

@@ -1,0 +1,146 @@
+* {
+    font-family: 'Source Sans Pro';
+}
+
+/* Page Layout */
+
+.product-grid-container {
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-columns: 400px 400px 1fr;
+    margin-bottom: 40px;
+}
+
+#product-title {
+    font-weight: bolder;
+    font-size: 80pt;
+    padding-left: 40px;
+}
+
+#product-image {
+    width: 400px;
+    padding-top: 30px;
+    padding-left: 40px;
+}
+
+/* Details */
+
+#product-details-container {
+    margin-left: 30px;
+}
+
+
+#product-details-price {
+    font-weight: bolder;
+    font-size: 30pt;
+}
+
+#product-bid-details-container {
+    margin-top: 40px;
+}
+
+.product-bid-details-text {
+    margin: 0;
+}
+
+#product-details-uploader {
+    font-style: italic;
+}
+
+#product-details-date {
+    font-weight: bolder;
+}
+
+#product-details-initial-bid {
+    
+}
+
+
+/* Bids */
+
+#product-bids-container {
+    margin-left: 80px;
+}
+
+#product-bid-info {
+    margin-top: 20px;
+}
+
+.product-bid-info-text {
+    margin: 0;
+}
+
+#product-bid-current {
+
+}
+
+#product-bid-last-user {
+    font-style: italic;
+}
+
+
+/* Comments */
+
+#comments-title {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.product-comment-grid-main-container {
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-columns: 700px 1fr;
+
+}
+
+.product-comment-grid-container {
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-columns: 200px 500px;
+    grid-row-gap: 40px;
+    margin-bottom: 50px;
+}
+
+.product-comment-image-container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-comment-image {
+    width: 50px;
+}
+
+.product-comment-text-container {
+    border-left: 1px solid #000;
+    padding-left: 40px;
+}
+
+.product-comment-user {
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+#product-comment-input-container {
+    width: 80%;
+}
+
+#id_comment_input {
+    width: 100%;
+    height: 100px;
+}
+#product-comment-input-submit {
+    float: right;
+}
+
+/* Categories */
+
+#product-categories-container {
+    margin-top: 30px;
+}
+
+#product-categories {
+    margin-top: 10px;
+}

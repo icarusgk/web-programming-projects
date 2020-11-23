@@ -1,0 +1,23 @@
+* {
+    font-family: 'Source Sans Pro';
+}
+
+#not-found-container {
+    margin-top: 150px;
+    text-align: center;
+}
+
+#not-found-image {
+    width: 160px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#not-found-text {
+    margin-top: 40px;
+}
+
+#not-found-heading {
+    font-weight: bolder;
+}

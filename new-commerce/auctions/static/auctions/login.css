@@ -1,0 +1,54 @@
+* {
+    font-family: 'Source Sans Pro';
+}
+
+/* Basic Layout */
+
+.login-grid-container{
+    display: grid;
+    grid-template-columns: 200px;
+	grid-template-columns: repeat(2, 1fr);	
+}
+
+#login-image {
+    width: 600px;
+    margin-top: 70px;
+    margin-left: 60px;
+}
+
+/* Form title */
+#login-title-container {
+    text-align: center;
+    padding-top: 30px;
+}
+
+#login-title-text {
+    font-weight: bolder;
+    font-size: 50pt;
+}
+
+
+/* Form Input */
+
+#form-user-input {
+    margin-top: 60px;
+    width: 300px;
+}
+
+#form-password-container {
+    padding-left: 0%;
+}
+
+#form-login-button {
+    margin-top: 40px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Register Prompt */
+
+#register-prompt{
+    margin-top: 50px;
+    text-align: center;
+}
