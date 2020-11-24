@@ -1,6 +1,7 @@
 from django import forms
 from .models import Category
 
+
 class ListingForm(forms.Form):
     CHOICES = Category.objects.values_list()
 
@@ -9,12 +10,15 @@ class ListingForm(forms.Form):
     image_url = forms.URLField()
     bid = forms.FloatField()
     category = forms.MultipleChoiceField(
-        widget = forms.CheckboxSelectMultiple,
-        choices = CHOICES
+        widget=forms.CheckboxSelectMultiple,
+        choices=CHOICES
     )
 
+
 class CommentForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea, max_length=256, label="")
-    
+    comment_input = forms.CharField(widget=forms.Textarea(
+        attrs={"rows": 5, "cols": 20}), label='')
+
+
 class BidForm(forms.Form):
     new_bid = forms.FloatField()
