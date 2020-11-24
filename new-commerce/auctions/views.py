@@ -5,12 +5,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import datetime as dt
+import random
 
 from .models import User, Listing, Bid, Watchlist, Comment, Category
-from .forms import CommentForm, BidForm, ListingForm
+from .forms import BidForm, ListingForm, CommentForm
+
 
 def index(request):
-    
+
     listing = list(Listing.objects.all())
 
     product_names = []
@@ -66,14 +68,14 @@ def product(request, name):
 
     if name in product_names:
         # Assignation
-        product = Listing.objects.get(product_name = name)
+        product = Listing.objects.get(product_name=name)
         name = product.product_name
         image = product.image_url
         description = product.description
         creator = product.creator
         date = product.datetime
         categories = product.category.all()
-        all_bids = Bid.objects.filter(listing = product)
+        all_bids = Bid.objects.filter(listing=product)
         last_bid_user = None
 
         if all_bids.last() is None:
@@ -89,31 +91,32 @@ def product(request, name):
 
         watchlist_list = []
 
+        colors = ["primary", "secondary", "success",
+                  "danger", "warning", "info", "dark"]
+        
+
         if request.user.is_authenticated is True:
-            user_watchlist = Watchlist.objects.get(user = request.user)
+            user_watchlist = Watchlist.objects.get(user=request.user)
 
             for element in user_watchlist.product.all():
                 watchlist_list.append(element.product_name)
-        
 
-        comments_all = Comment.objects.filter(product = product)
+        comments_all = Comment.objects.filter(product=product)
         comment_user = []
         comment_content = []
+        comment_time = []
 
         categories_list = []
-
-        
 
         for comment in comments_all:
             comment_user.append(comment.user)
             comment_content.append(comment.body)
+            comment_time.append(comment.time)
 
-        comments = list(zip(comment_user, comment_content))
+        comments = list(zip(comment_user, comment_content, comment_time))
 
         for category in categories:
             categories_list.append(category.name)
-
-        
 
         return render(request, 'auctions/product.html', {
             "name": name,
@@ -126,15 +129,18 @@ def product(request, name):
             "final_bid": product.last_price,
             "last_bid_user": last_bid_user,
             "current_bids": current_bids,
-            "comment": CommentForm(),
             "comments": comments,
+            "number_of_comments": len(comments),
+            "comment_input_textarea": CommentForm(),
             "is_active": is_active,
             "watchlist": watchlist_list,
+            "colors": random_colors,
+            "success": 'success',
             "new_bid": BidForm(initial={'new_bid': product.last_price})
         })
     else:
         return render(request, 'auctions/product.html', {
-            "error": f"This page '{name}' does not exist."
+            "error": f"'{name}'' not found"
         })
 
 
@@ -194,7 +200,8 @@ def bid(request):
             current_bid = Bid.objects.filter(listing=current_listing)
 
             if bid_amount > current_listing.last_price:
-                new_bid = Bid(listing=current_listing, bid=bid_amount, user=bid_user)
+                new_bid = Bid(listing=current_listing,
+                              bid=bid_amount, user=bid_user)
                 new_bid.save()
 
                 current_listing.last_price = current_listing.bid_set.last().bid
@@ -215,27 +222,23 @@ def comment(request):
         comment_username = request.POST['user_name']
 
         if form.is_valid():
-            comment = form.cleaned_data['comment']
+            comment_body = form.cleaned_data['comment_input']
             current_user = User.objects.get(username=comment_username)
             current_product = Listing.objects.get(product_name=product)
 
-            new_comment = Comment(
-                user=current_user,
-                body=comment,
-                product=current_product)
+        new_comment = Comment(
+            user=current_user,
+            body=comment_body,
+            product=current_product)
 
-            new_comment.save()
-
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-        else:
-            return HttpResponseRedirect(reverse("index"))
+        new_comment.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def remove(request):
     if request.method == "POST":
         product = request.POST["remove_button"]
-        item = Listing.objects.get(product_name = product)
+        item = Listing.objects.get(product_name=product)
 
         item.is_active = False
         item.save()
@@ -260,7 +263,6 @@ def category(request, name):
     for product in category_name.listing_set.all():
         if product.is_active is True:
             product_names.append(product.product_name)
-    
 
     return render(request, 'auctions/category.html', {
         "names": product_names,
@@ -324,7 +326,6 @@ def my_watchlist(request):
             "watchlist": products_list,
             "active": "Active Listings"
         })
-
 
 
 def login_view(request):
