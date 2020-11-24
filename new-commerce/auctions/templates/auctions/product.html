@@ -11,6 +11,7 @@
         <p id="product-details-price">$ {{ final_bid }}</p>
         <p id="product-details-description"> {{ description }}</p>
 
+{% if user.is_authenticated %}        
         {% if name in watchlist and user != creator %}
         <form action="{% url 'remove-watchlist' %}" method="POST">
             {% csrf_token %}
@@ -26,6 +27,7 @@
             <button type="submit" class="btn btn-success">Add Item to Watchlist</button>
         </form>
         {% endif %}
+{% endif %}
         
         <div id="product-bid-details-container">
             <p class="product-bid-details-text" id="product-details-uploader">Uploaded by: {{ creator }}</p>
@@ -33,14 +35,16 @@
             <p class="product-bid-details-text" id="product-details-initial-bid">Initial Bid was: $ {{ start_bid }}</p>
         </div>
     </div>
+
     <div id="product-bids-container">
         <div id="product-bid-input">
+            {% if user.is_authenticated %}  
             <form action="{% url 'bid' %}" method="POST">
                 {% csrf_token %}
                 {% if creator == user  %}
-                    You are the lister.
+                    <h3 class="text-info font-weight-bold">You are the lister.</h3>
                 {% elif creator != user and is_active == True %}
-                    <p>Submit a new bid</p>
+                    <p id="product-submit-bid-title">Submit a new bid</p>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
@@ -51,19 +55,60 @@
                         <button type="submit" class="btn btn-secondary">Place Bid</button>
                     </div>
                 {% endif %}
-            </form>            
+            </form>
+            {% endif %}
+        
+            {% if creator == user and is_active == True %}
+                <form action="{% url 'remove' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="remove_button" value="{{ name }}" >
+                    <input type="submit" value="Close auction" class="btn btn-danger">
+                </form>
+            {% elif creator == user and is_active == False and current_bids == 0 %}
+                <div class="p-3 mb-2 bg-secondary text-white">You closed the auction</div>
+                <p>No bid was placed</p>
+            {% elif creator != user and is_active == False and current_bids == 0 %}
+                <p>The auction was closed.</p>
+                <p>No bid was placed</p>
+            {% elif creator == user and is_active == False %}
+            <div class="p-3 mb-2 bg-secondary text-white">You closed the auction</div>
+                <p class="text-success font-weight-bold">'{{ last_bid_user }}' was the winner.</p>
+            {% elif user == last_bid_user and is_active == False %}
+                <p>The auction was closed.</p>
+                <p class="text-success font-weight-bold">You won the auction</p>
+            {% elif creator != user and is_active == False %}
+                <p>The auction was closed.</p>
+                <p class="text-success font-weight-bold">{{ last_bid_user }} was the winner.</p>
+            {% endif %}            
         </div>
 
         <div id="product-bid-info">
-            <p class="product-bid-info-text" id="product-bid-current">There are currently <strong>{{ current_bids }} bids</strong> for this product</p>
-            <p class="product-bid-info-text" id="product-bid-last-user">The last bid was made by <strong>{{ last_bid_user }}</strong></p>
+            {% if not user.is_authenticated %}
+                <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to place a Bid.</p>
+            {% endif %}
+                <hr>
+             {% if current_bids == 0 and is_active == True %}
+                    <p id="product-bid-current" class="product-bid-info-text">There are no current bids for this products.</p>
+                {% elif current_bids == 1 and is_active == True %}
+                    <p id="product-bid-current" class="product-bid-info-text">There is {{ current_bids }} bid for this product</p>
+                    <p id="product-bid-last-user">The last bid was made by: {{ last_bid_user }}</p>
+                {% elif current_bids > 1 and is_active == True %}
+                    <p id="product-bid-current" class="product-bid-info-text">There are {{ current_bids }} bids for this product</p>
+                    <p id="product-bid-last-user">The last bid was made by: {{ last_bid_user }}</p>
+                {% elif current_bids == 1 and is_active == False %}
+                    <p id="product-bid-current" class="product-bid-info-text">There was {{ current_bids }} bid for this product</p>
+                    <p id="product-bid-last-user">The last bid was made by: {{ last_bid_user }}</p>
+                {% elif current_bids > 1 and is_active == False %}
+                    <p id="product-bid-current" class="product-bid-info-text">There were {{ current_bids }} bids for this product</p>
+                    <p id="product-bid-last-user">The last bid was made by: {{ last_bid_user }}</p>
+                {% endif %}    
         </div>
 
         <div id="product-categories-container">
-            <h2>Categories</h2>
+            <h2 class="font-weight-bold">Categories</h2>
             <div id="product-categories">
                 {% for category in categories %}
-                    <a href="../category/{{category}}"><button type="button" class="btn btn-primary btn-sm">{{category}}</button></a>
+                    <a href="../category/{{category}}"><button type="button" class="btn btn-info btn-sm">{{category}}</button></a>
                 {% endfor %}
             </div>
         </div>
@@ -73,7 +118,7 @@
 
 <hr>
 
-<h1 id="comments-title">Comments</h1>
+<h1 id="comments-title" class="font-weight-bold">Comments ({{ number_of_comments }})</h1>
 
 <div class="product-comment-grid-main-container">
     
@@ -91,21 +136,20 @@
         {% endfor %}
     </div>
     
-
-
+{% if user.is_authenticated %}
 <div id="product-comment-input-container">
     <h3>Add a new comment</h3>
-    {% if user.is_authenticated %}
+    
     <form action="{% url 'comment' %}" method="POST">
         {% csrf_token %}
-        <textarea name="comment_body" id="" cols="40" rows="10"></textarea>
+        {{comment_input_textarea}}
         <input type="hidden" name="page_name" value="{{ name }}">
         <input type="hidden" name="user_name" value="{{ user.username }}">
-        <input type="submit" value="Add Comment" class="btn btn-primary">
+        <input id="product-comment-submit"  style="float: right;" type="submit" value="Add Comment" class="btn btn-primary">
     </form>
-    {% endif %}
-    
+   
 </div>
+{% endif %}
 
     
 </div>
