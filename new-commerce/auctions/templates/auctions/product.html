@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-{% if name %}
+
 <h2 id="product-title">{{ name }}</h2>
 <div class="product-grid-container">
     <div id="product-image-container">
@@ -54,6 +54,15 @@
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <button type="submit" class="btn btn-secondary">Place Bid</button>
                     </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags %}
+                            <div class="p-3 mb-2 bg-success text-white" id="product-bid-success-message" style="margin-top: 15px;">
+                                {{ message }}
+                            </div>
+                            
+                            {% endif %}
+                        {% endfor %}
                 {% endif %}
             </form>
             {% endif %}
