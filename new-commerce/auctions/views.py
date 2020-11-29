@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
@@ -12,6 +13,8 @@ from .forms import BidForm, ListingForm, CommentForm
 
 
 def index(request):
+
+    
 
     listing = list(Listing.objects.all())
 
@@ -31,6 +34,7 @@ def index(request):
     products = list(zip(product_names, descriptions, images, price, is_active))
 
     return render(request, "auctions/index.html", {
+        
         "products": products
     })
 
@@ -134,7 +138,6 @@ def product(request, name):
             "comment_input_textarea": CommentForm(),
             "is_active": is_active,
             "watchlist": watchlist_list,
-            "colors": random_colors,
             "success": 'success',
             "new_bid": BidForm(initial={'new_bid': product.last_price})
         })
@@ -147,6 +150,7 @@ def product(request, name):
 @login_required
 def new_item(request):
     return render(request, "auctions/new_item.html", {
+        "categories": Category.objects.all(),
         "form": ListingForm()
     })
 
@@ -156,7 +160,6 @@ def input(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
         listing = request.POST['title']
-        user_name = request.POST['user_name']
 
         if form.is_valid():
             title = form.cleaned_data['title']
@@ -165,7 +168,6 @@ def input(request):
             initial_price = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
-            user = User.objects.get(username=user_name)
 
             new_listing = Listing(
                 product_name=title,
@@ -175,13 +177,15 @@ def input(request):
                 last_price=initial_price,
                 image_url=image_url,
                 is_active=True,
-                creator=user)
+                creator=request.user)
 
+            
             new_listing.save()
 
             for i in categories:
                 category = Category.objects.get(id=i)
                 new_listing.category.add(category)
+                messages.success(request, 'Your product was added succesfully')
 
             return product(request, listing)
 
@@ -200,12 +204,15 @@ def bid(request):
             current_bid = Bid.objects.filter(listing=current_listing)
 
             if bid_amount > current_listing.last_price:
-                new_bid = Bid(listing=current_listing,
-                              bid=bid_amount, user=bid_user)
+                new_bid = Bid (listing=current_listing,
+                              bid=bid_amount, 
+                              user=bid_user)
                 new_bid.save()
 
                 current_listing.last_price = current_listing.bid_set.last().bid
                 current_listing.save()
+
+                messages.success(request, 'Your bid was placed succesfully')
 
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
