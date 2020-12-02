@@ -1,3 +1,5 @@
+import datetime as dt
+import random
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -5,8 +7,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-import datetime as dt
-import random
+
 
 from .models import User, Listing, Bid, Watchlist, Comment, Category
 from .forms import BidForm, ListingForm, CommentForm
