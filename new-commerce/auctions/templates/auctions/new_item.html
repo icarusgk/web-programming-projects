@@ -1,24 +1,72 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h1 id="new-title">Add a new item</h1>
+<h1 id="new-item-title">Add a new Item</h1>
     <form action="{% url 'input' %}" method="POST">
     {% csrf_token %}
-        <div>
-            <p class="form-tags">{{ form.title.label_tag }}</p>
-            {{ form.title }}
-            <p class="form-tags">{{ form.description.label_tag }}</p>
-            {{ form.description }}
-            <p class="form-tags"> {{ form.image_url.label_tag }}</p>
-            {{ form.image_url}}
-            <p class="form-tags"> {{ form.bid.label_tag }}</p>
-            {{ form.bid }}
-            <div style="float: right;">
-                <p class="form-tags"> {{ form.category.label_tag }}</p>
-                {{ form.category }}
-            </div>
-            <input type="hidden" name="user_name" value="{{ user.username }}">
-            <input type="submit" class="btn btn-dark" value="Submit">
+    
+    <div class="new-item-main-container">
+  
+      <div id="new-item-t-and-d">
+        <div class="form-group">
+          <label for="exampleFormControlInput1" style="font-weight: bolder;">Title</label>
+          {{ form.title }}
         </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1" style="font-weight: bolder;">Description</label>
+          {{ form.description }}
+        </div>
+      </div>
+  
+      <div class="new-item-image-and-bid">
+  
+        <div id="new-item-image-url">
+          <div class="new-item-image-inline">
+  
+            <div id="new-item-image-logo">
+              <img src="https://icons-for-free.com/iconfiles/png/512/gallery-131964752828011266.png" width="40px">
+            </div>
+  
+            <div id="new-item-image-url-title">
+              <p>Image URL</p>
+            </div>
+  
+          </div>
+  
+          <div class="form-group">
+            {{form.image_url}}
+          </div>
+        </div>
+  
+        <div id="new-item-place-bid">
+          <p style="font-weight: bolder;">Place the starting price:</p>
+          <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+            </div>
+                {{form.bid}}
+          </div>
+        </div>
+  
+        <div id="new-item-categories">
+          <p style="font-weight: bolder;">Select Categories</p>
+          <div>
+            <!-- {% for category in categories %}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">{{ category }}</label>
+            </div>
+            {% endfor %} -->
+            {{ form.category }}
+          </div>
+          
+        </div>
+  
+      </div>
+      
+    </div>
+  
+    <button id="new-item-submit-button"<button class="btn btn-success">Submit new Item</button>
+  
     </form>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+{% if name %}
 
 <h2 id="product-title">{{ name }}</h2>
 <div class="product-grid-container">
@@ -11,23 +12,23 @@
         <p id="product-details-price">$ {{ final_bid }}</p>
         <p id="product-details-description"> {{ description }}</p>
 
-{% if user.is_authenticated %}        
-        {% if name in watchlist and user != creator %}
-        <form action="{% url 'remove-watchlist' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="product" value="{{ name }}">
-            <input type="hidden" name="user_name" value="{{ user.username }}">
-            <button type="submit" class="btn btn-danger">Remove Item to Watchlist</button>
-        </form>
-        {% elif name not in watchlist and user != creator %}
-        <form action="{% url 'add-watchlist' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="product" value="{{ name }}">
-            <input type="hidden" name="user_name" value="{{ user.username }}">
-            <button type="submit" class="btn btn-success">Add Item to Watchlist</button>
-        </form>
-        {% endif %}
-{% endif %}
+    {% if user.is_authenticated %}        
+            {% if name in watchlist and user != creator %}
+            <form action="{% url 'remove-watchlist' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{ name }}">
+                <input type="hidden" name="user_name" value="{{ user.username }}">
+                <button type="submit" class="btn btn-danger">Remove Item to Watchlist</button>
+            </form>
+            {% elif name not in watchlist and user != creator %}
+            <form action="{% url 'add-watchlist' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{ name }}">
+                <input type="hidden" name="user_name" value="{{ user.username }}">
+                <button type="submit" class="btn btn-success">Add Item to Watchlist</button>
+            </form>
+            {% endif %}
+    {% endif %}
         
         <div id="product-bid-details-container">
             <p class="product-bid-details-text" id="product-details-uploader">Uploaded by: {{ creator }}</p>
@@ -54,15 +55,16 @@
                         <input type="hidden" name="user_name" value="{{ user.username }}">
                         <button type="submit" class="btn btn-secondary">Place Bid</button>
                     </div>
+
                     {% if messages %}
                         {% for message in messages %}
                             {% if message.tags %}
                             <div class="p-3 mb-2 bg-success text-white" id="product-bid-success-message" style="margin-top: 15px;">
                                 {{ message }}
                             </div>
-                            
                             {% endif %}
                         {% endfor %}
+                    {% endif %}
                 {% endif %}
             </form>
             {% endif %}
@@ -145,27 +147,25 @@
         {% endfor %}
     </div>
     
-{% if user.is_authenticated %}
-<div id="product-comment-input-container">
-    <h3>Add a new comment</h3>
+    {% if user.is_authenticated %}
+    <div id="product-comment-input-container">
+        <h3>Add a new comment</h3>
+        
+        <form action="{% url 'comment' %}" method="POST">
+            {% csrf_token %}
+            {{comment_input_textarea}}
+            <input type="hidden" name="page_name" value="{{ name }}">
+            <input type="hidden" name="user_name" value="{{ user.username }}">
+            <input id="product-comment-submit"  style="float: right;" type="submit" value="Add Comment" class="btn btn-primary">
+        </form>
     
-    <form action="{% url 'comment' %}" method="POST">
-        {% csrf_token %}
-        {{comment_input_textarea}}
-        <input type="hidden" name="page_name" value="{{ name }}">
-        <input type="hidden" name="user_name" value="{{ user.username }}">
-        <input id="product-comment-submit"  style="float: right;" type="submit" value="Add Comment" class="btn btn-primary">
-    </form>
-   
-</div>
-{% endif %}
+    </div>
+    {% endif %}
 
-    
 </div>
 
 
 {% else %}
-
 
 <div id="not-found-container">
     <img id="not-found-image" src="https://raw.githubusercontent.com/icarusgk/web-programming-projects/b5766c2bd68758abf07a1ce08a0a9b8551ca5c02/new-commerce/auctions/resources/not-found.svg" >
@@ -175,9 +175,6 @@
     </div>
 </div>
 
-
 {% endif %}
-
-
 
 {% endblock %}

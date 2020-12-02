@@ -15,8 +15,6 @@ from .forms import BidForm, ListingForm, CommentForm
 
 def index(request):
 
-    
-
     listing = list(Listing.objects.all())
 
     product_names = []
@@ -35,7 +33,6 @@ def index(request):
     products = list(zip(product_names, descriptions, images, price, is_active))
 
     return render(request, "auctions/index.html", {
-        
         "products": products
     })
 
@@ -98,7 +95,6 @@ def product(request, name):
 
         colors = ["primary", "secondary", "success",
                   "danger", "warning", "info", "dark"]
-        
 
         if request.user.is_authenticated is True:
             user_watchlist = Watchlist.objects.get(user=request.user)
@@ -169,7 +165,6 @@ def input(request):
             initial_price = form.cleaned_data['bid']
             categories = form.cleaned_data['category']
 
-
             new_listing = Listing(
                 product_name=title,
                 description=description,
@@ -180,7 +175,6 @@ def input(request):
                 is_active=True,
                 creator=request.user)
 
-            
             new_listing.save()
 
             for i in categories:
@@ -205,8 +199,8 @@ def bid(request):
             current_bid = Bid.objects.filter(listing=current_listing)
 
             if bid_amount > current_listing.last_price:
-                new_bid = Bid (listing=current_listing,
-                              bid=bid_amount, 
+                new_bid = Bid(listing=current_listing,
+                              bid=bid_amount,
                               user=bid_user)
                 new_bid.save()
 
@@ -267,16 +261,39 @@ def categories(request):
 def category(request, name):
     category_name = Category.objects.get(name=name)
     product_names = []
+    product_descriptions = []
+    product_images = []
+    product_date = []
+
+    category_names = []
+
+    for category in Category.objects.values():
+        number = 1
+        for c in category.values():
+            if number % 2 == 0:
+                category_names.append(c)
+            number += 1
 
     for product in category_name.listing_set.all():
         if product.is_active is True:
             product_names.append(product.product_name)
+            product_descriptions.append(product.description)
+            product_images.append(product.image_url)
+            product_date.append(product.datetime)
 
-    return render(request, 'auctions/category.html', {
-        "names": product_names,
-        "title": name,
-        "active": "Active Listings",
-    })
+        if name in category_names:
+            products = list(
+                zip(product_names, product_descriptions, product_images, product_date))
+
+            return render(request, 'auctions/category.html', {
+                "names": product_names,
+                "title": name,
+                "products": products
+            })
+        else:
+            return render(request, 'auctions/category-empty.html', {
+                "title": name
+            })
 
 
 def add_watchlist(request):

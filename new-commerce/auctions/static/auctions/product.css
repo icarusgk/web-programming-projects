@@ -11,6 +11,8 @@
     margin-bottom: 40px;
 }
 
+
+
 #product-title {
     font-weight: bolder;
     font-size: 80pt;
@@ -51,12 +53,12 @@
     font-weight: bolder;
 }
 
-#product-details-initial-bid {
-    
-}
-
 
 /* Bids */
+
+#product-submit-bid-title {
+    font-size: 20px;
+}
 
 #product-bids-container {
     margin-left: 80px;
@@ -70,14 +72,10 @@
     margin: 0;
 }
 
-#product-bid-current {
-
-}
 
 #product-bid-last-user {
     font-style: italic;
 }
-
 
 /* Comments */
 
@@ -85,18 +83,17 @@
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 40px;
+    font-
 }
 
 .product-comment-grid-main-container {
     display: grid;
-    grid-template-columns: 200px;
     grid-template-columns: 700px 1fr;
-
+    margin-bottom: 80px;
 }
 
 .product-comment-grid-container {
     display: grid;
-    grid-template-columns: 200px;
     grid-template-columns: 200px 500px;
     grid-row-gap: 40px;
     margin-bottom: 50px;
@@ -131,7 +128,9 @@
     width: 100%;
     height: 100px;
 }
-#product-comment-input-submit {
+
+
+#product-comment-submit {
     float: right;
 }
 
