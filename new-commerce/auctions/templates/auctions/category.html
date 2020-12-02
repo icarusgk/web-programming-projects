@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2 class="category-title">{{ title }}</h2>
+
+<div class="row row-cols-1 row-cols-md-3">
+{% for product in products %}
+
+<div class="col mb-4">
+    <div class="card">
+        <img src="{{ product.2 }}" class="card-img-top" alt="...">
+        <div class="card-body" style="text-align: center;">
+            <h5 class="card-title"> {{ product.0 }}</h5>
+            <p class="card-text">{{ product.1 }}</p>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+* {
+    font-family: 'Source Sans Pro';
+}
+
+#new-item-title {
+    font-family: 'Secular One';
+    margin-left: 40px;
+    margin-top: 30px;
+}
+
+.new-item-main-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 60px;
+}
+
+#new-item-t-and-d {
+    width: 500px;
+    margin-left: 40px;
+    
+}
+
+.new-item-image-and-bid {
+    width: 600px;
+}
+
+.new-item-image-inline {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#new-item-image-url-title {
+    padding-left: 10px;
+    font-weight: bolder;
+    margin-top: 10px;
+}
+
+#new-item-categories {
+    margin-top: 30px;
+}
+
+#new-item-submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}

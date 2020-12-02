@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="page-body">
+    <div class="card-columns">
+        
+    {% for product in products %}
+    <div class="card text-center">
+    <a href="product/{{ product.0 }}">
+            <form action="{url 'product'}"></form>
+            <div class="card-body">
+            <div class="card">
+                <img src="{{ product.2 }}" class="card-img-top">
+                <div class="text-center">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.0 }}</h5>
+                    <hr>
+                    <p class="card-text">{{ product.1 }}</p>
+                    <p class="card-text" style="color: green;">Price: $ {{ product.3 }}</p>
+                    <div class="card-footer">
+                        <p class="card-text" style="color: lightgreen;">Active</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+    </a>
+    </div>
+</div>
+{% endblock %}
