@@ -17,6 +17,8 @@ def index(request):
 
     listing = list(Listing.objects.all())
 
+    my_name = 'Roger'
+    
     product_names = []
     images = []
     descriptions = []
