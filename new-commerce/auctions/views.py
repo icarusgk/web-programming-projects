@@ -268,20 +268,22 @@ def category(request, name):
     product_date = []
 
     category_names = []
+    footwear = Category.objects.get(name='Footwear')
 
-    for category in Category.objects.values():
-        number = 1
-        for c in category.values():
-            if number % 2 == 0:
-                category_names.append(c)
-            number += 1
+    # for category in Category.objects.values():
+    #     number = 1
+    #     for c in category.values():
+    #         if number % 2 == 0:
+    #             category_names.append(c)
+    #         number += 1
 
-    for product in category_name.listing_set.all():
-        if product.is_active is True:
-            product_names.append(product.product_name)
-            product_descriptions.append(product.description)
-            product_images.append(product.image_url)
-            product_date.append(product.datetime)
+    
+        # if product.is_active is True:
+        #     product_names.append(product.product_name)
+        #     product_descriptions.append(product.description)
+        #     product_images.append(product.image_url)
+        #     product_date.append(product.datetime)
+            
 
         if name in category_names:
             products = list(
