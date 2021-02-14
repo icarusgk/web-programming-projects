@@ -238,7 +238,7 @@ def comment(request):
         new_comment.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
+# Close auction 
 def remove(request):
     if request.method == "POST":
         product = request.POST["remove_button"]
@@ -249,7 +249,7 @@ def remove(request):
 
         return index(request)
 
-
+# Renders the categories links
 def categories(request):
     categories = Category.objects.all()
     name = []
@@ -259,7 +259,7 @@ def categories(request):
         "categories": categories
     })
 
-
+# Renders the category page
 def category(request, name):
     category_name = Category.objects.get(name=name)
     product_names = []
@@ -268,27 +268,37 @@ def category(request, name):
     product_date = []
 
     category_names = []
-    footwear = Category.objects.get(name='Footwear')
 
-    # for category in Category.objects.values():
-    #     number = 1
-    #     for c in category.values():
-    #         if number % 2 == 0:
-    #             category_names.append(c)
-    #         number += 1
+    # Gets the name of each category
+    for category in Category.objects.values():
+        number = 1
+        for c in category.values():
+            if number % 2 == 0:
+                category_names.append(c)
+            number += 1
 
-    
-        # if product.is_active is True:
-        #     product_names.append(product.product_name)
-        #     product_descriptions.append(product.description)
-        #     product_images.append(product.image_url)
-        #     product_date.append(product.datetime)
-            
+    #Add the basic details to a product array
 
-        if name in category_names:
-            products = list(
-                zip(product_names, product_descriptions, product_images, product_date))
+    # Get the products in a many to many relation
+    if name in category_names:
+        if len(category_name.listing_set.all()) > 0:
+            for product in category_name.listing_set.all():
+                if product.is_active is True:
+                    product_names.append(product.product_name)
+                    product_descriptions.append(product.description)
+                    product_images.append(product.image_url)
+                    product_date.append(product.datetime)
 
+                products = list(
+                    zip(product_names, product_descriptions, product_images, product_date))
+        # Handles the case if there is no elements on the category
+        else:
+            return render(request, 'auctions/category-empty.html', {
+                "title": name
+            })
+        
+        # When passed the list returns the active listings in that category
+        if products:
             return render(request, 'auctions/category.html', {
                 "names": product_names,
                 "title": name,
@@ -299,7 +309,7 @@ def category(request, name):
                 "title": name
             })
 
-
+# Add item to a watchlist
 def add_watchlist(request):
     if request.method == "POST":
         product_name = request.POST["product"]
@@ -322,7 +332,7 @@ def add_watchlist(request):
             "watchlist": product_list
         })
 
-
+# Remove listing from a watchlist
 def remove_watchlist(request):
     if request.method == "POST":
         user = request.POST["user_name"]
@@ -339,7 +349,7 @@ def remove_watchlist(request):
             "product": product,
         })
 
-
+# Renders user's watchlist
 def my_watchlist(request):
     if request.method == "POST":
         user_name = request.POST["user_name"]
@@ -350,10 +360,9 @@ def my_watchlist(request):
         products_list = []
         for product in user_watchlist.product.all():
             products_list.append(product)
-
+        
         return render(request, 'auctions/watchlist.html', {
             "watchlist": products_list,
-            "active": "Active Listings"
         })
 
 
