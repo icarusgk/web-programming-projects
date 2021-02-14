@@ -16,7 +16,7 @@
         <p id="product-details-description"> {{ description }}</p>
     
     <!-- Watchlist Button -->
-    {% if user.is_authenticated %}        
+    {% if user.is_authenticated and is_active == True%}        
             {% if name in watchlist and user != creator %}
             <form action="{% url 'remove-watchlist' %}" method="POST">
                 {% csrf_token %}
@@ -131,7 +131,7 @@
             <h2 class="font-weight-bold">Categories</h2>
             <div id="product-categories">
                 {% for category in categories %}
-                    <a href="../category/{{category}}"><button type="button" class="btn btn-info btn-sm">{{category}}</button></a>
+                    <a id="product-category" href="../category/{{category}}"><button type="button" class="btn btn-info btn-sm">{{category}}</button></a>
                 {% endfor %}
             </div>
         </div>

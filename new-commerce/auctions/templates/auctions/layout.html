@@ -52,6 +52,7 @@
               <a class="nav-link" href="{% url 'active-listings' %}"> Active Listings <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
+              <!-- Form for knowing the current user logged in -->
               <form action="{% url 'my-watchlist' %}" method="POST" class="nav-link active">
                 {% csrf_token %}
                 <input type="hidden" name="user_name" value="{{ user }}">

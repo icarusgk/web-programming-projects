@@ -1,24 +1,35 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>My Watchlist</h2>
+    <h2 id="watchlist-title">My Watchlist</h2>
     {% if product %}
         {{ product }} has been removed from your watchlist.
     {% endif %}
-   
+<div class="row row-cols-1 row-cols-md-3">
     {% for product in watchlist %}
+    <div class="col mb-4">
         <a href="../product/{{product.product_name}}">
-            {{product.product_name}}
+            <div class="card">
+                <img src="{{ product.image_url}}" alt="...">
+                <div class="card-body" style="text-align: center">
+                    <h5 class="card-title"> {{ product.product_name }} </h5>
+                    <p class="card-text">{{ product.product_description }}</p>
+                </div>
+            </div>
         </a> 
+    </div>
+      
         {% if product.is_active == False %}
             - This auction was closed
         {% endif %}
         -
         {{product.description}} <br>
+
     {% empty %}
         <p>You do not have items in your watchlist</p>
         <a href="{% url 'active-listings' %}">See Active Listings</a>
     {% endfor %}
+</div>  
     {% if message %}
         {{ message }}
     {% endif %}
