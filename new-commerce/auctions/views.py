@@ -14,7 +14,7 @@ from .forms import BidForm, ListingForm, CommentForm
 
 
 def index(request):
-
+    
     listing = list(Listing.objects.all())
 
     my_name = 'Roger'
