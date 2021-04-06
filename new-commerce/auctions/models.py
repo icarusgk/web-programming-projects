@@ -8,7 +8,6 @@ class User(AbstractUser):
 
 
 # Category
-
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
@@ -17,7 +16,6 @@ class Category(models.Model):
 
 
 # Listing
-
 class Listing(models.Model):
     product_name = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
@@ -44,7 +42,6 @@ class Bid(models.Model):
 
 
 # Comments
-
 class Comment(models.Model):
     body = models.CharField(max_length=256)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,7 +53,6 @@ class Comment(models.Model):
 
 
 # Watchlist
-
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ManyToManyField(Listing)

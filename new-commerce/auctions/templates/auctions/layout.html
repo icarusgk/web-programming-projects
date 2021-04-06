@@ -11,8 +11,12 @@
     <link rel="stylesheet" href="{% static 'auctions/product.css' %}">
     <link rel="stylesheet" href="{% static 'auctions/new-item.css' %}">
     <link rel="stylesheet" href="{% static 'auctions/category.css' %}">
+    <link rel="stylesheet" href="{% static 'auctions/watchlist.css' %}">
+    <link rel="stylesheet" href="{% static 'auctions/categories.css' %}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -21,7 +25,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" style="font-family: 'Source Sans Pro';" href="{% url 'index' %}">
+        <a class="navbar-brand" style="font-family: 'Poppins';" href="{% url 'index' %}">
             <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Flat_tick_icon.svg" width="30" height="30" alt="" loading="lazy">
             SnapShop
         </a>        
@@ -32,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}">All Listings </a>
+              <a class="nav-link" href="{% url 'all-listings' %}">All Listings </a>
             </li>
             
             <li class="nav-item active">
@@ -43,7 +47,7 @@
                 Categories
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for category in global_categories %}
+                {% for category in all_categories %}
                   <a class="dropdown-item" href="/category/{{ category }}">{{ category }}</a>
                 {% endfor %}
               </div>

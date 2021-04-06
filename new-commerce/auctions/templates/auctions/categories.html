@@ -1,9 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<div class="card-columns" style="padding-left: 30px; padding-right: 30px; padding-top: 30px;">
     {% for category in categories %}
-        <ul>
-            <a href="category/{{category}}"><li>{{ category }}</li></a>
-        </ul>
+    <a href="category/{{category}}">
+        <div class="card">
+            <img class="card-img-top" src="https://github.com/icarusgk/web-programming-projects/blob/master/new-commerce/auctions/templates/auctions/images/{{category}}.png?raw=true">
+            <div>
+                <p class="card-title text-center" style="padding-top: 10px; font-weight: bolder; font-size: 40px; font-family: Poppins;">{{ category }}</p>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>            
+            </div>
+        </div>
+    </a>
     {% endfor %}
+</div>
 {% endblock %}

@@ -13,7 +13,31 @@ from .models import User, Listing, Bid, Watchlist, Comment, Category
 from .forms import BidForm, ListingForm, CommentForm
 
 
+
 def index(request):
+    listing = list(Listing.objects.all())
+
+    product_names = []
+    images = []
+    descriptions = []
+    price = []
+
+    for i in listing:
+        if i.is_active is True:
+            product_names.append(i.product_name)
+            descriptions.append(i.description)
+            images.append(i.image_url)
+            price.append(i.last_price)
+
+    products = list(zip(product_names, descriptions, images, price))
+
+    return render(request, "auctions/active.html", {
+        "products": products
+    })
+
+
+
+def all_listings(request):
     
     listing = list(Listing.objects.all())
 

@@ -1,5 +1,5 @@
 * {
-    font-family: 'Source Sans Pro';
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Page Layout */
@@ -14,6 +14,7 @@
 
 
 #product-title {
+    font-family: 'Poppins';
     font-weight: bolder;
     font-size: 80pt;
     padding-left: 40px;
@@ -33,6 +34,7 @@
 
 
 #product-details-price {
+    font-family: 'Poppins';
     font-weight: bolder;
     font-size: 30pt;
 }
@@ -83,7 +85,6 @@
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 40px;
-    font-
 }
 
 .product-comment-grid-main-container {
