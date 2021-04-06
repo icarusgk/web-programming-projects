@@ -7,7 +7,7 @@ Series of projects of Harvard's Web Programming Course
 
 - [x] Search
 - [x] Wiki
-- [ ] Commerce
+- [x] Commerce
 - [ ] Mail
 - [ ] Network
 - [ ] Capstone
